@@ -2,13 +2,10 @@
 
 14-AddingAndDeleting: ![continuous integration build badge](https://github.com/uvic-seng321/a3---getting-started-with-ci-chloezacharias-uvic/actions/workflows/npm-gulp.yml/badge.svg?branch=14-AddingAndDeleting)
 
-How to install:
-npm install
+in your local machine, type the following commands:
 
-npm install prisma --save-dev
-npx prisma init
-
-npm install @prisma/client
-
-
-
+-"git clone git clone ```git clone https://github.com/uvic-seng321/project-requirement-rascals-15.git ```"
+- cd project-requirement-rascals-15
+- cd pantrypal
+- npm install
+- npm run dev
