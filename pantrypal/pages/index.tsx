@@ -2,6 +2,7 @@ import React from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import prisma from "@/lib/prisma";
+import { Item } from "@prisma/client";
 
 export const getStaticProps: GetStaticProps = async () => {
   const items = await prisma.item.findMany({
@@ -18,14 +19,6 @@ export const getStaticProps: GetStaticProps = async () => {
       items,
     },
   };
-};
-
-type Item = {
-  id: number;
-  name: string;
-  expiry: string;
-  notes: string;
-  type: string;
 };
 
 type Props = {
@@ -46,7 +39,9 @@ const Table: React.FC<Props> = (props) => {
           href="/favicon.ico"
         />
       </Head>
-      <p>{JSON.stringify(props)}</p>
+      <main>
+        <p>{JSON.stringify(props)}</p>
+      </main>
     </div>
   );
 };
