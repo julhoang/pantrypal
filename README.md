@@ -8,5 +8,7 @@ npm install
 npm install prisma --save-dev
 npx prisma init
 
+npm install @prisma/client
+
 
 
