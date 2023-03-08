@@ -9,6 +9,8 @@ export const getStaticProps: GetStaticProps = async () => {
     select: {
       name: true,
       expiry: true,
+      notes: true,
+      type: true,
     },
   });
 
@@ -47,3 +49,4 @@ const Table: React.FC<Props> = (props) => {
 };
 
 export default Table;
+
