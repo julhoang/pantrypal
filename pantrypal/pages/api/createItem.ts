@@ -19,5 +19,12 @@ export default async function handleCreate(req: NextApiRequest, res: NextApiResp
 
 // add to database
 export async function createItem(item: Item) {
-  return null;
+  return await prisma.item.create({
+    data: {
+      name: item.name,
+      expiry: item.expiry,
+      notes: item.notes,
+      type: item.type,
+    },
+  });
 }
