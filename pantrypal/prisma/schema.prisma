@@ -11,8 +11,7 @@ datasource db {
 }
 
 model Item {
-  id     Int    @id @default(autoincrement())
-  name   String
+  name   String @id
   expiry String
   notes  String
   type   String

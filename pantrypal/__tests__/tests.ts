@@ -1,18 +1,28 @@
-import createEntry from './../pages/create';
-import {describe, expect, test} from '@jest/globals';
-//import { prismaMock } from './../singleton'
+import prisma from "../lib/prisma";
+import { it } from "node:test";
+import { createItem } from "../pages/api/createItem";
+import { expect, test } from "@jest/globals";
+import { Item } from "../lib/types";
 
-test('should create new user ', async () => {
-  const item = {
-    name: 'Mango',
-    expiry: "1",
-    notes: "hello",
-    type: 'Fruit',
-  }
+// test add item
+test("addItem", () => {
+  it("add apple to the database", async () => {
+    // create a new item in the database
+    const item: Item = {
+      name: "pinapple-test",
+      expiry: "2021-12-31",
+      notes: "this is a test",
+      type: "fruit",
+    };
 
-  //prismaMock.item.create.mockResolvedValue(item)
+    const res = await createItem(item);
 
-  await expect(createEntry('Mango','1','hello','Fruit')).resolves.toEqual(
-    "Mango"
-  )
-})
+    const dbItem = await prisma.item.findUnique({
+      where: {
+        name: "pinapple-test",
+      },
+    });
+
+    expect(res).toEqual(dbItem);
+  });
+});

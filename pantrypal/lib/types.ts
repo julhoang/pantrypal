@@ -1,7 +1,8 @@
 export type Item = {
-  id: number;
   name: string;
   expiry: string;
   notes: string;
-  type: string;
+  type: ItemType;
 };
+
+export type ItemType = "fruit" | "vegetable" | "meat" | "dairy" | "other";
