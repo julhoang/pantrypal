@@ -8,6 +8,21 @@ const createEntry: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const res = await fetch("/api/createItem", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: name.current?.value,
+        expiry: expiry.current?.value,
+        notes: notes.current?.value,
+        type: type.current?.value,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
   };
 
   return (
