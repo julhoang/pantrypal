@@ -23,8 +23,6 @@ test("add pinapple to the database", async () => {
     },
   });
 
-  expect(dbItem).not.toBeNull();
-
   expect(res).toEqual(dbItem);
 });
 
@@ -46,7 +44,26 @@ test("add beef to the database", async () => {
     },
   });
 
-  expect(dbItem).not.toBeNull();
+  expect(res).toEqual(dbItem);
+});
+
+test("add cheese to the database", async () => {
+  // create a new item in the database
+  const item: Item = {
+    name: "cheese-test",
+    expiry: "2021-12-31",
+    notes: "this is a test",
+    type: "fruit",
+  };
+
+  const res = await createItem(item);
+  expect(res).not.toBeNull();
+
+  const dbItem = await prisma.item.findUnique({
+    where: {
+      name: "cheese-test",
+    },
+  });
 
   expect(res).toEqual(dbItem);
 });
