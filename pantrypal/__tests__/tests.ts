@@ -90,3 +90,47 @@ test("fetch by name from the database", async () => {
 
   expect(res).toEqual(itemExpected);
 });
+
+test("fetch by expiry from the database", async () => {
+  // fetch Apple
+    const item: Item = {
+    name: "****",
+    expiry: "2023-03-15",
+    notes: "****",
+    type: "other",
+  };
+
+    const itemExpected: Item = {
+    name: "eggs",
+    expiry: "2023-03-15",
+    notes: "expiring tmr",
+    type: "meat",
+  };
+
+  const res = await fetchItem(item);
+  expect(res).not.toBeNull();
+
+  expect(res).toEqual(itemExpected);
+});
+
+test("fetch by type from the database", async () => {
+  // fetch Apple
+    const item: Item = {
+    name: "****",
+    expiry: "****",
+    notes: "****",
+    type: "meat",
+  };
+
+    const itemExpected: Item = {
+    name: "eggs",
+    expiry: "2023-03-15",
+    notes: "expiring tmr",
+    type: "meat",
+  };
+
+  const res = await fetchItem(item);
+  expect(res).not.toBeNull();
+
+  expect(res).toEqual(itemExpected);
+});
