@@ -33,7 +33,7 @@ test("update item name", async () => {
 });
 
 test("update item expiry, type and notes", async () => {
-    //change item name milk to milk-test
+    //change item expiry to 2023-03-20, notes to: expiring in 10 days and type to: other
     const item: Item = {
     name: "milk-test",
     expiry: "2023-03-17",
