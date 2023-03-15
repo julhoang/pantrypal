@@ -7,9 +7,21 @@ import updateItem  from "../pages/api/updateItem";
 
 test("update item name", async () => {
     //change item name milk to milk-test
-  const newName = "milk-test";
+    const item: Item = {
+    name: "milk",
+    expiry: "2023-03-17",
+    notes: "expiring in 3 days",
+    type: "fruit",
+  };
 
-  const res = await updateItem("milk", newName);
+   const Newitem: Item = {
+    name: "milk-test",
+    expiry: "2023-03-17",
+    notes: "expiring in 3 days",
+    type: "fruit",
+  };
+
+  const res = await updateItem(item, newItem);
 
    const dbItem = await prisma.item.findUnique({
     where: {
