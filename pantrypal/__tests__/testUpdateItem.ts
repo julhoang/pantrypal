@@ -31,3 +31,30 @@ test("update item name", async () => {
 
   expect(res).toEqual(dbItem);
 });
+
+test("update item expiry, type and notes", async () => {
+    //change item name milk to milk-test
+    const item: Item = {
+    name: "milk-test",
+    expiry: "2023-03-17",
+    notes: "expiring in 3 days",
+    type: "fruit",
+  };
+
+   const newItem: Item = {
+    name: "milk-test",
+    expiry: "2023-03-20",
+    notes: "expiring in 10 days",
+    type: "other",
+  };
+
+  const res = await updateItem(item, newItem);
+
+   const dbItem = await prisma.item.findUnique({
+    where: {
+      name: "milk-test",
+    },
+  });
+
+  expect(res).toEqual(dbItem);
+});
