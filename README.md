@@ -11,3 +11,4 @@ in your local machine, type the following commands:
 - cd pantrypal
 - npm install
 - npm run dev
+- npm test (to run all the test cases)
