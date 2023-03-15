@@ -1,18 +1,15 @@
 import prisma from "../lib/prisma";
 import { expect, test } from "@jest/globals";
 import { Item } from "../lib/types";
-import {fetchItem}  from "../pages/api/updateItem";
+import updateItem  from "../pages/api/updateItem";
 
 
 
 test("update item name", async () => {
     //change item name milk to milk-test
-    const item: Item = {
-    name: "milk",
-    expiry: "****",
-    notes: "****",
-    type: "****",
-  };
+  const newName = "milk-test";
+
+  const res = await updateItem("milk", newName);
 
    const dbItem = await prisma.item.findUnique({
     where: {
@@ -21,6 +18,4 @@ test("update item name", async () => {
   });
 
   expect(res).toEqual(dbItem);
-
-  expect(res).toEqual(itemExpected);
 });
