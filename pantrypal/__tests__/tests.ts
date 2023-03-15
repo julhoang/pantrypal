@@ -117,7 +117,7 @@ test("fetch by type from the database", async () => {
   };
 
   let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
-      { "name": "olives-test", "expiry": "2023-03-16", "notes": "Green", "type": "other"}
+      { "name": "olive", "expiry": "2023-03-16", "notes": "Green", "type": "other"}
   ];
 
   const res = await fetchItem(item);
@@ -144,4 +144,14 @@ test("fetch multiple items from the database and sort by expiry", async () => {
   expect(res).not.toBeNull();
 
   expect(res).toEqual(itemExpected);
+});
+
+test("cleaning up test cases", async () => {
+    const items = await prisma.item.deleteMany({
+  where: {
+    name: {
+      contains: '-test',
+    },
+  },
+})
 });
