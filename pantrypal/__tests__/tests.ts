@@ -2,6 +2,7 @@ import prisma from "../lib/prisma";
 import { createItem } from "../pages/api/createItem";
 import { expect, test } from "@jest/globals";
 import { Item } from "../lib/types";
+import {fetchItem}  from "../pages/api/fetch";
 
 // test add item
 test("add pinapple to the database", async () => {
@@ -70,23 +71,19 @@ test("add cheese to the database", async () => {
 // test fetch item
 test("fetch by name from the database", async () => {
   // fetch Apple
-  const item = await prisma.item.create( {
-  data:{  
-    name: 'Apple',
-    expiry: "",
-    notes: "",
-    type: '',
-  },
-  });
+    const item: Item = {
+    name: "beef-test",
+    expiry: "****",
+    notes: "****",
+    type: "other",
+  };
 
-    const itemExpected = await prisma.item.create( {
-  data:{ 
-    name: 'Apple',
-    expiry: "tomorrow",
-    notes: "eat it",
-    type: 'fruit',
-  },
-    });
+    const itemExpected: Item = {
+    name: "beef-test",
+    expiry: "2021-12-31",
+    notes: "this is a test",
+    type: "fruit",
+  };
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
