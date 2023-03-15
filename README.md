@@ -2,6 +2,8 @@
 
 Fetching items: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg?branch=fetchItem)
 
+Updating items: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg?branch=updateItem)
+
 in your local machine, type the following commands:
 
 -"git clone git clone ```git clone https://github.com/uvic-seng321/project-requirement-rascals-15.git ```"
