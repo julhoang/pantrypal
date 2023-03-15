@@ -2,9 +2,9 @@ name: NodeJS with Gulp
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "fetchItem" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "fetchItem" ]
 
 jobs:
   build:
@@ -26,3 +26,4 @@ jobs:
       run: |
         npm install
         gulp
+        npm test
