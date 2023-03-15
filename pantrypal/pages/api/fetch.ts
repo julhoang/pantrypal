@@ -19,12 +19,12 @@ async function handleFetch(req: NextApiRequest, res: NextApiResponse){
  export async function fetchItem(itemDetails: Item){
     // extract the data from the request (req) body
     var {name, expiry, type } = itemDetails;
-    console.log(JSON.stringify(name));
-    console.log(JSON.stringify(expiry));
-    console.log(JSON.stringify(type));
      
     //finding the items that include the stated infromation
      const item = await prisma.item.findMany({
+        orderBy: {
+            expiry: 'asc',
+        },
         where: {
         OR: [ 
       {
@@ -48,7 +48,6 @@ async function handleFetch(req: NextApiRequest, res: NextApiResponse){
           type: true,
         },
         });
-  console.log(JSON.stringify(item));
   return item;
 
 }

@@ -78,17 +78,14 @@ test("fetch by name from the database", async () => {
     type: "****",
   };
 
-    const itemExpected: Item = {
-    name: "beef-test",
-    expiry: "2021-12-31",
-    notes: "this is a test",
-    type: "fruit",
-  };
+  let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
+      { "name": "beef-test", "expiry": "2021-12-31", "notes": "this is a test", "type": "fruit"}
+  ];
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res[0]).toEqual(itemExpected);
+  expect(res).toEqual(itemExpected);
 });
 
 test("fetch by expiry from the database", async () => {
@@ -100,17 +97,14 @@ test("fetch by expiry from the database", async () => {
     type: "****",
   };
 
-    const itemExpected: Item = {
-    name: "eggs",
-    expiry: "2023-03-15",
-    notes: "expiring tmr",
-    type: "meat",
-  };
+    let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
+      { "name": "eggs", "expiry": "2023-03-15", "notes": "expiring tmr", "type": "meat"}
+  ];
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res[0]).toEqual(itemExpected);
+  expect(res).toEqual(itemExpected);
 });
 
 test("fetch by type from the database", async () => {
@@ -122,17 +116,14 @@ test("fetch by type from the database", async () => {
     type: "other",
   };
 
-    const itemExpected: Item = {
-    name: "olives-test",
-    expiry: "2023-03-16",
-    notes: "Green",
-    type: "other",
-  };
+  let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
+      { "name": "olives-test", "expiry": "2023-03-16", "notes": "Green", "type": "other"}
+  ];
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res[0]).toEqual(itemExpected);
+  expect(res).toEqual(itemExpected);
 });
 
 test("fetch multiple items from the database and sort by expiry", async () => {
@@ -152,5 +143,5 @@ test("fetch multiple items from the database and sort by expiry", async () => {
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res.sort()).toEqual(itemExpected.sort());
+  expect(res).toEqual(itemExpected);
 });
