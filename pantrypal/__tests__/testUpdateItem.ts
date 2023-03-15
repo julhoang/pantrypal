@@ -14,7 +14,7 @@ test("update item name", async () => {
     type: "fruit",
   };
 
-   const Newitem: Item = {
+   const newItem: Item = {
     name: "milk-test",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
