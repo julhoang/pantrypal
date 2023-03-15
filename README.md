@@ -2,7 +2,7 @@
 
 Fetching items: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg?branch=fetchItem)
 
-Updating items: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/test.yml/badge.svg?branch=updateItem)
+Updating items: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg?branch=updateItem)
 
 in your local machine, type the following commands:
 
