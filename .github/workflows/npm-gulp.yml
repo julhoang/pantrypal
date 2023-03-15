@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./pantrypal
 
     strategy:
       matrix:
@@ -27,7 +27,6 @@ jobs:
 
     - name: Build
       run: |
-        cd pantrypal
         npm install
         gulp
         cd pantrypal
