@@ -66,3 +66,30 @@ test("add cheese to the database", async () => {
 
   expect(res).toEqual(dbItem);
 });
+
+// test fetch item
+test("fetch by name from the database", async () => {
+  // fetch Apple
+  const item = await prisma.item.create( {
+  data:{  
+    name: 'Apple',
+    expiry: "",
+    notes: "",
+    type: '',
+  },
+  });
+
+    const itemExpected = await prisma.item.create( {
+  data:{ 
+    name: 'Apple',
+    expiry: "tomorrow",
+    notes: "eat it",
+    type: 'fruit',
+  },
+    });
+
+  const res = await fetchItem(item);
+  expect(res).not.toBeNull();
+
+  expect(res).toEqual(itemExpected);
+});
