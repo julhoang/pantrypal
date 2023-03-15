@@ -24,6 +24,7 @@ jobs:
 
     - name: Build
       run: |
+        cd pantrypal
         npm install
         gulp
         cd pantrypal
