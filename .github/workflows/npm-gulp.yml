@@ -27,4 +27,4 @@ jobs:
         npm install
         gulp
         cd pantrypal
-        npm test
+        npm run test
