@@ -75,7 +75,7 @@ test("fetch by name from the database", async () => {
     name: "beef-test",
     expiry: "****",
     notes: "****",
-    type: "other",
+    type: "****",
   };
 
     const itemExpected: Item = {
@@ -88,7 +88,7 @@ test("fetch by name from the database", async () => {
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res).toEqual(itemExpected);
+  expect(res[0]).toEqual(itemExpected);
 });
 
 test("fetch by expiry from the database", async () => {
@@ -97,7 +97,7 @@ test("fetch by expiry from the database", async () => {
     name: "****",
     expiry: "2023-03-15",
     notes: "****",
-    type: "other",
+    type: "****",
   };
 
     const itemExpected: Item = {
@@ -110,7 +110,7 @@ test("fetch by expiry from the database", async () => {
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res).toEqual(itemExpected);
+  expect(res[0]).toEqual(itemExpected);
 });
 
 test("fetch by type from the database", async () => {
@@ -119,20 +119,20 @@ test("fetch by type from the database", async () => {
     name: "****",
     expiry: "****",
     notes: "****",
-    type: "meat",
+    type: "other",
   };
 
     const itemExpected: Item = {
-    name: "eggs",
-    expiry: "2023-03-15",
-    notes: "expiring tmr",
-    type: "meat",
+    name: "olives-test",
+    expiry: "2023-03-16",
+    notes: "Green",
+    type: "other",
   };
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res).toEqual(itemExpected);
+  expect(res[0]).toEqual(itemExpected);
 });
 
 test("fetch multiple items from the database", async () => {
@@ -145,12 +145,12 @@ test("fetch multiple items from the database", async () => {
   };
 
   let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
-    { "name": "eggs", "expiry": "2023-03-15", "notes": "expiring tmr", "type": "meat"},
-    { "name": "butter", "expiry": "2023-03-19", "notes": "expiring in 5 days", "type": "meat"}
+      { "name": "butter", "expiry": "2023-03-19", "notes": "expiring in 5 days", "type": "meat"},
+    { "name": "eggs", "expiry": "2023-03-15", "notes": "expiring tmr", "type": "meat"}
   ];
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res).toEqual(itemExpected);
+  expect(res.sort()).toEqual(itemExpected.sort());
 });

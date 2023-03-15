@@ -49,7 +49,7 @@ async function handleFetch(req: NextApiRequest, res: NextApiResponse){
         },
         });
   console.log(JSON.stringify(item));
-  return item[0];
+  return item;
 
 }
 

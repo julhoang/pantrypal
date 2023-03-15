@@ -5,4 +5,4 @@ export type Item = {
   type: ItemType;
 };
 
-export type ItemType = "fruit" | "vegetable" | "meat" | "dairy" | "other";
+export type ItemType = "fruit" | "vegetable" | "meat" | "dairy" | "other" | "****";
