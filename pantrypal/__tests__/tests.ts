@@ -135,7 +135,7 @@ test("fetch by type from the database", async () => {
   expect(res[0]).toEqual(itemExpected);
 });
 
-test("fetch multiple items from the database", async () => {
+test("fetch multiple items from the database and sort by expiry", async () => {
   // fetch Apple
     const item: Item = {
     name: "****",
@@ -145,8 +145,8 @@ test("fetch multiple items from the database", async () => {
   };
 
   let itemExpected: { name: string, expiry: string, notes: string, type: string }[] = [
-      { "name": "butter", "expiry": "2023-03-19", "notes": "expiring in 5 days", "type": "meat"},
-    { "name": "eggs", "expiry": "2023-03-15", "notes": "expiring tmr", "type": "meat"}
+      { "name": "eggs", "expiry": "2023-03-15", "notes": "expiring tmr", "type": "meat"},
+      { "name": "butter", "expiry": "2023-03-19", "notes": "expiring in 5 days", "type": "meat"}
   ];
 
   const res = await fetchItem(item);
