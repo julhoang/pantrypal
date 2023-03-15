@@ -1,0 +1,33 @@
+name: NodeJS with Gulp
+
+on:
+  push:
+    branches: [ "main", "fetchItem" , "updateItem"]
+  pull_request:
+    branches: [ "main", "fetchItem" , "updateItem"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pantrypal
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        cd pantrypal
+        npm install gulp
+        npm install
+        npm run test
