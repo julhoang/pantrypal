@@ -2,7 +2,6 @@ import prisma from "../lib/prisma";
 import { createItem } from "../pages/api/createItem";
 import { expect, test } from "@jest/globals";
 import { Item } from "../lib/types";
-import { assert } from "node:console";
 
 // test add item
 test("add pinapple to the database", async () => {
