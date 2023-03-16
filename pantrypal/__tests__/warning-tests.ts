@@ -9,7 +9,7 @@ const today = new Date();
 test("expiring today -- should throw warning", async () => {
   const item: Item = {
     name: "chicken-test",
-    expiry: today.toLocaleDateString().slice(0, 10),
+    expiry: today.toLocaleDateString().slice(0, 10).replace("/", "-"),
     notes: "this is a test",
     type: "other",
   };
@@ -35,7 +35,8 @@ test("expiring today -- should throw warning", async () => {
 test("expiring tomorrow -- should throw warning", async () => {
   const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
     .toLocaleDateString()
-    .slice(0, 10);
+    .slice(0, 10)
+    .replace("/", "-");
 
   const item: Item = {
     name: "orange-test",
@@ -65,7 +66,8 @@ test("expiring tomorrow -- should throw warning", async () => {
 test("expiring yesterday -- should throw warning", async () => {
   const yesterday = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000)
     .toLocaleDateString()
-    .slice(0, 10);
+    .slice(0, 10)
+    .replace("/", "-");
 
   const item: Item = {
     name: "olives-test",
@@ -95,7 +97,8 @@ test("expiring yesterday -- should throw warning", async () => {
 test("expiring in 2 day -- should throw warning", async () => {
   const future = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000)
     .toLocaleDateString()
-    .slice(0, 10);
+    .slice(0, 10)
+    .replace("/", "-");
 
   const item: Item = {
     name: "tomato-test",
@@ -125,7 +128,8 @@ test("expiring in 2 day -- should throw warning", async () => {
 test("expiring in 4 day -- should not throw warning", async () => {
   const future = new Date(today.getTime() + 4 * 24 * 60 * 60 * 1000)
     .toLocaleDateString()
-    .slice(0, 10);
+    .slice(0, 10)
+    .replace("/", "-");
 
   const item: Item = {
     name: "onion-test",
