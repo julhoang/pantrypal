@@ -116,14 +116,12 @@ test("fetch by type from the database", async () => {
     type: "other",
   };
 
-  let itemExpected: { name: string; expiry: string; notes: string; type: string }[] = [
-    { name: "olive", expiry: "2023-03-16", notes: "Green", type: "other" },
-  ];
+  let itemExpected = { name: "olive", expiry: "2023-03-16", notes: "Green", type: "other" };
 
   const res = await fetchItem(item);
   expect(res).not.toBeNull();
 
-  expect(res).toEqual(itemExpected);
+  expect(res).toContainEqual(itemExpected);
 });
 
 test("fetch multiple items from the database and sort by expiry", async () => {

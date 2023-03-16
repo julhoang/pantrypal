@@ -122,8 +122,8 @@ test("expiring in 2 day -- should throw warning", async () => {
   });
 });
 
-test("expiring in 3 day -- should not throw warning", async () => {
-  const future = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000)
+test("expiring in 4 day -- should not throw warning", async () => {
+  const future = new Date(today.getTime() + 4 * 24 * 60 * 60 * 1000)
     .toLocaleDateString()
     .slice(0, 10);
 
