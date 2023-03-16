@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Item {
-  name   String @id
+  name   String @unique
   expiry String
   notes  String
   type   String
