@@ -1,3 +1,8 @@
+// const { PrismaClient } = require('@prisma/client')
+// const prisma = new PrismaClient()
+// // import { deleteItem } from "./api/delete";
+// import React, { useRef } from "react";
+
 import { deleteItem } from "./api/delete";
 import React, { useState } from "react";
 
@@ -6,14 +11,11 @@ const DeleteItem = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await fetch("/api/deleteItem", {
-      method: "DELETE",
+    const res = await fetch("/api/fetchItem/item?name=${name}", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name: name,
-      }),
     });
     const data = await res.json();
     console.log(data);
@@ -29,7 +31,7 @@ const DeleteItem = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button type="submit">Delete</button>
+        <button type="submit">Fetch</button>
       </form>
     </div>
   );
