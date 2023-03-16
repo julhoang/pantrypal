@@ -27,6 +27,5 @@ jobs:
 
     - name: Build
       run: |
-        cd pantrypal
         npm install
         npm run test
