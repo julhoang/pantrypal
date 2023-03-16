@@ -1,155 +1,270 @@
 import prisma from "../lib/prisma";
 import { createItem } from "../pages/api/createItem";
-import { expect, test } from "@jest/globals";
+import { expect, test, describe, beforeAll, afterAll } from "@jest/globals";
 import { Item } from "../lib/types";
 import { fetchItem } from "../pages/api/fetch";
+import { getExpiringItems } from "../pages/api/warningItems";
 
-// test add item
-test("add pinapple to the database", async () => {
-  // create a new item in the database
-  const item: Item = {
-    name: "pinapple-test",
-    expiry: "2021-12-31",
-    notes: "this is a test",
-    type: "fruit",
-  };
+const today = new Date();
+const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
+  .toLocaleDateString()
+  .slice(0, 10);
+const yesterday = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000)
+  .toLocaleDateString()
+  .slice(0, 10);
+const next3days = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000)
+  .toLocaleDateString()
+  .slice(0, 10);
 
-  const res = await createItem(item);
-  expect(res).not.toBeNull();
+const pinapple: Item = {
+  name: "pinapple-test",
+  expiry: today.toLocaleDateString().slice(0, 10), //today
+  notes: "this is a test",
+  type: "fruit",
+};
 
-  const dbItem = await prisma.item.findUnique({
-    where: {
-      name: "pinapple-test",
-    },
+const beef: Item = {
+  name: "beef-test",
+  expiry: tomorrow,
+  notes: "this is a test",
+  type: "meat",
+};
+
+const pork: Item = {
+  name: "pork-test",
+  expiry: next3days,
+  notes: "this is a test",
+  type: "meat",
+};
+
+const cheese: Item = {
+  name: "cheese-test",
+  expiry: yesterday,
+  notes: "this is a test",
+  type: "dairy",
+};
+
+const tomato: Item = {
+  name: "tomato-test",
+  expiry: next3days,
+  notes: "this is a test",
+  type: "vegetable",
+};
+
+const olive: Item = {
+  name: "olive-test",
+  expiry: today.toLocaleDateString().slice(0, 10),
+  notes: "this is a test",
+  type: "other",
+};
+
+describe("Test All Functions", () => {
+  // --- TEST CREATE ITEM ---
+  describe("Test Create Functions", () => {
+    test("add pinapple to the database", async () => {
+      // create a new item in the database
+      const item: Item = pinapple;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
+
+    test("add beef to the database", async () => {
+      // create a new item in the database
+      const item: Item = beef;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
+
+    test("add pork to the database", async () => {
+      // create a new item in the database
+      const item: Item = pork;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
+
+    test("add cheese to the database", async () => {
+      // create a new item in the database
+      const item: Item = cheese;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
+
+    test("add tomato to the database", async () => {
+      // create a new item in the database
+      const item: Item = tomato;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
+
+    test("add olive to the database", async () => {
+      // create a new item in the database
+      const item: Item = olive;
+
+      const res = await createItem(item);
+      expect(res).not.toBeNull();
+
+      const dbItem = await prisma.item.findUnique({
+        where: {
+          name: item.name,
+        },
+      });
+
+      expect(res).toEqual(dbItem);
+    });
   });
 
-  expect(res).toEqual(dbItem);
-});
+  // --- TEST FETCH ITEM ---
+  describe("Test Fetch Item", () => {
+    test("fetch by name from the database", async () => {
+      // fetch Apple
+      const item: Item = {
+        name: "beef-test",
+        expiry: "****",
+        notes: "****",
+        type: "****",
+      };
 
-test("add beef to the database", async () => {
-  // create a new item in the database
-  const item: Item = {
-    name: "beef-test",
-    expiry: "2021-12-31",
-    notes: "this is a test",
-    type: "fruit",
-  };
+      const res = await fetchItem(item);
+      expect(res).not.toBeNull();
 
-  const res = await createItem(item);
-  expect(res).not.toBeNull();
+      expect(res).toContainEqual(beef);
+    });
 
-  const dbItem = await prisma.item.findUnique({
-    where: {
-      name: "beef-test",
-    },
+    test("fetch by expiry from the database", async () => {
+      // fetch Apple
+      const item: Item = {
+        name: "****",
+        expiry: yesterday,
+        notes: "****",
+        type: "****",
+      };
+
+      const res = await fetchItem(item);
+      expect(res).not.toBeNull();
+
+      expect(res).toContainEqual(cheese);
+    });
+
+    test("fetch by type from the database", async () => {
+      // fetch Apple
+      const item: Item = {
+        name: "****",
+        expiry: "****",
+        notes: "****",
+        type: "other",
+      };
+
+      const res = await fetchItem(item);
+      expect(res).not.toBeNull();
+
+      expect(res).toContainEqual(olive);
+    });
+
+    test("fetch multiple items from the database and sort by expiry", async () => {
+      // fetch Apple
+      const item: Item = {
+        name: "****",
+        expiry: "****",
+        notes: "****",
+        type: "meat",
+      };
+
+      let itemExpected: Item[] = [beef, pork];
+
+      const res = await fetchItem(item);
+      expect(res).not.toBeNull();
+
+      expect(res).toEqual(itemExpected);
+    });
   });
 
-  expect(res).toEqual(dbItem);
-});
+  // --- TEST GET WARNING ---
+  describe("Test Warning Functions", () => {
+    type resType = {
+      name: string;
+      expiry: string;
+      notes: string;
+      type: string;
+    }[];
 
-test("add cheese to the database", async () => {
-  // create a new item in the database
-  const item: Item = {
-    name: "cheese-test",
-    expiry: "2021-12-31",
-    notes: "this is a test",
-    type: "fruit",
-  };
+    let res: resType | null = null;
 
-  const res = await createItem(item);
-  expect(res).not.toBeNull();
+    beforeAll(async () => {
+      res = await getExpiringItems();
+    });
 
-  const dbItem = await prisma.item.findUnique({
-    where: {
-      name: "cheese-test",
-    },
+    test("expiring today -- should throw warning", () => {
+      expect(res).toContainEqual(pinapple); // today
+    });
+
+    test("expiring yesterday -- should throw warning", () => {
+      expect(res).toContainEqual(cheese); // yesterday
+    });
+
+    test("expiring tomorrow -- should throw warning", () => {
+      expect(res).toContainEqual(beef); // tomorrow
+    });
+
+    test("expiring in 3 days -- should not throw warning", () => {
+      expect(res).not.toContainEqual(pork); // 3 days
+    });
   });
 
-  expect(res).toEqual(dbItem);
-});
-
-// test fetch item
-test("fetch by name from the database", async () => {
-  // fetch Apple
-  const item: Item = {
-    name: "beef-test",
-    expiry: "****",
-    notes: "****",
-    type: "****",
-  };
-
-  let itemExpected: { name: string; expiry: string; notes: string; type: string }[] = [
-    { name: "beef-test", expiry: "2021-12-31", notes: "this is a test", type: "fruit" },
-  ];
-
-  const res = await fetchItem(item);
-  expect(res).not.toBeNull();
-
-  expect(res).toEqual(itemExpected);
-});
-
-test("fetch by expiry from the database", async () => {
-  // fetch Apple
-  const item: Item = {
-    name: "****",
-    expiry: "2023-03-15",
-    notes: "****",
-    type: "****",
-  };
-
-  let itemExpected: { name: string; expiry: string; notes: string; type: string }[] = [
-    { name: "eggs", expiry: "2023-03-15", notes: "expiring tmr", type: "meat" },
-  ];
-
-  const res = await fetchItem(item);
-  expect(res).not.toBeNull();
-
-  expect(res).toEqual(itemExpected);
-});
-
-test("fetch by type from the database", async () => {
-  // fetch Apple
-  const item: Item = {
-    name: "****",
-    expiry: "****",
-    notes: "****",
-    type: "other",
-  };
-
-  let itemExpected = { name: "olive", expiry: "2023-03-16", notes: "Green", type: "other" };
-
-  const res = await fetchItem(item);
-  expect(res).not.toBeNull();
-
-  expect(res).toContainEqual(itemExpected);
-});
-
-test("fetch multiple items from the database and sort by expiry", async () => {
-  // fetch Apple
-  const item: Item = {
-    name: "****",
-    expiry: "****",
-    notes: "****",
-    type: "meat",
-  };
-
-  let itemExpected: { name: string; expiry: string; notes: string; type: string }[] = [
-    { name: "eggs", expiry: "2023-03-15", notes: "expiring tmr", type: "meat" },
-    { name: "butter", expiry: "2023-03-19", notes: "expiring in 5 days", type: "meat" },
-  ];
-
-  const res = await fetchItem(item);
-  expect(res).not.toBeNull();
-
-  expect(res).toEqual(itemExpected);
-});
-
-test("cleaning up test cases", async () => {
-  const items = await prisma.item.deleteMany({
-    where: {
-      name: {
-        contains: "-test",
+  // --- TEST DELETE ITEM ---
+  afterAll(async () => {
+    await prisma.item.deleteMany({
+      where: {
+        name: {
+          contains: "-test",
+        },
       },
-    },
+    });
+
+    await prisma.$disconnect();
   });
 });

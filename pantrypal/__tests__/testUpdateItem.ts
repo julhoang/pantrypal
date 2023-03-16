@@ -1,20 +1,18 @@
 import prisma from "../lib/prisma";
 import { expect, test } from "@jest/globals";
 import { Item } from "../lib/types";
-import updateItem  from "../pages/api/updateItem";
-
-
+import updateItem from "../pages/api/updateItem";
 
 test("update item name", async () => {
-    //change item name milk to milk-new
-    const item: Item = {
+  //change item name milk to milk-new
+  const item: Item = {
     name: "milk",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
     type: "dairy",
   };
 
-   const newItem: Item = {
+  const newItem: Item = {
     name: "milk-new",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
@@ -23,7 +21,7 @@ test("update item name", async () => {
 
   const res = await updateItem(item, newItem);
 
-   const dbItem = await prisma.item.findUnique({
+  const dbItem = await prisma.item.findUnique({
     where: {
       name: "milk-new",
     },
@@ -33,15 +31,15 @@ test("update item name", async () => {
 });
 
 test("update item expiry, type and notes", async () => {
-    //change item expiry to 2023-03-20, notes to: expiring in 10 days and type to: other and the name to milk
-    const item: Item = {
+  //change item expiry to 2023-03-20, notes to: expiring in 10 days and type to: other and the name to milk
+  const item: Item = {
     name: "milk-new",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
     type: "fruit",
   };
 
-   const newItem: Item = {
+  const newItem: Item = {
     name: "milk",
     expiry: "2023-03-20",
     notes: "expiring in 10 days",
@@ -50,7 +48,7 @@ test("update item expiry, type and notes", async () => {
 
   const res = await updateItem(item, newItem);
 
-   const dbItem = await prisma.item.findUnique({
+  const dbItem = await prisma.item.findUnique({
     where: {
       name: "milk",
     },
@@ -60,14 +58,14 @@ test("update item expiry, type and notes", async () => {
 });
 
 test("reseting the entry milk", async () => {
-    const item: Item = {
+  const item: Item = {
     name: "milk",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
     type: "fruit",
   };
 
-   const newItem: Item = {
+  const newItem: Item = {
     name: "milk",
     expiry: "2023-03-17",
     notes: "expiring in 3 days",
@@ -76,7 +74,7 @@ test("reseting the entry milk", async () => {
 
   const res = await updateItem(item, newItem);
 
-   const dbItem = await prisma.item.findUnique({
+  const dbItem = await prisma.item.findUnique({
     where: {
       name: "milk",
     },

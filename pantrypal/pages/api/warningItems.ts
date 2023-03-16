@@ -1,8 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
+import { Item } from "../../lib/types";
 
 const today = new Date();
-const next_two_days = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString();
+const next_two_days = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000)
+  .toLocaleDateString()
+  .slice(0, 10);
 
 export default async function handleWarning(req: NextApiRequest, res: NextApiResponse) {
   // get all items from the database
