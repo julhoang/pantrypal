@@ -4,7 +4,7 @@ import { expect, test, describe, beforeAll, afterAll } from "@jest/globals";
 import { Item } from "../lib/types";
 import { fetchItem } from "../pages/api/fetch";
 import { getExpiringItems } from "../pages/api/warningItems";
-
+import { deleteItem } from "../pages/api/delete";
 const today = new Date();
 const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
   .toLocaleDateString()
@@ -166,17 +166,19 @@ describe("Test All Functions", () => {
       expect(res).not.toContainEqual(pork); // 3 days
     });
   });
+  });
 
   // --- TEST DELETE ITEM ---
-  afterAll(async () => {
-    await prisma.item.deleteMany({
-      where: {
-        name: {
-          contains: "-test",
-        },
-      },
-    });
+  describe("Test Delete Item", () => {
+    const items = [pinapple, beef, pork, cheese, tomato, olive];
+    test.each(items)("add %p to the database", async (item) => {
+      // create a new item in the database
+      const res = await deleteItem(item);
+      expect(res).not.toBeNull();
 
-    await prisma.$disconnect();
+
+      // afterEach(async () => {
+        await prisma.$disconnect();
+      // });
   });
 });
