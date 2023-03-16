@@ -1,10 +1,11 @@
 import prisma from "../lib/prisma";
 import { createItem } from "../pages/api/createItem";
-import { expect, test, describe, beforeAll, afterAll } from "@jest/globals";
-import { Item } from "../lib/types";
+import { expect, test, describe, beforeAll } from "@jest/globals";
+import { Item, resType } from "../lib/types";
 import { fetchItem } from "../pages/api/fetch";
 import { getExpiringItems } from "../pages/api/warningItems";
 import { deleteItem } from "../pages/api/delete";
+
 const today = new Date();
 const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
   .toLocaleDateString()
@@ -65,7 +66,7 @@ describe("Test All Functions", () => {
     const items = [pinapple, beef, pork, cheese, tomato, olive];
 
     // loop through each item and test
-    test.each(items)("add %p to the database", async (item) => {
+    test.each(items)("add %s to the database", async (item) => {
       // create a new item in the database
       const res = await createItem(item);
       expect(res).not.toBeNull();
@@ -81,9 +82,8 @@ describe("Test All Functions", () => {
   });
 
   // --- TEST FETCH ITEM ---
-  describe("Test Fetch Item", () => {
+  describe("Test Fetch Functions", () => {
     test("fetch by name from the database", async () => {
-      // fetch Apple
       const item: Item = {
         name: "beef-test",
         expiry: "****",
@@ -96,7 +96,6 @@ describe("Test All Functions", () => {
     });
 
     test("fetch by expiry from the database", async () => {
-      // fetch Apple
       const item: Item = {
         name: "****",
         expiry: yesterday,
@@ -109,7 +108,6 @@ describe("Test All Functions", () => {
     });
 
     test("fetch by type from the database", async () => {
-      // fetch Apple
       const item: Item = {
         name: "****",
         expiry: "****",
@@ -122,7 +120,6 @@ describe("Test All Functions", () => {
     });
 
     test("fetch multiple items from the database and sort by expiry", async () => {
-      // fetch Apple
       const item: Item = {
         name: "****",
         expiry: "****",
@@ -137,13 +134,6 @@ describe("Test All Functions", () => {
 
   // --- TEST GET WARNING ---
   describe("Test Warning Functions", () => {
-    type resType = {
-      name: string;
-      expiry: string;
-      notes: string;
-      type: string;
-    }[];
-
     let res: resType | null = null;
 
     beforeAll(async () => {
@@ -166,19 +156,14 @@ describe("Test All Functions", () => {
       expect(res).not.toContainEqual(pork); // 3 days
     });
   });
-  });
 
   // --- TEST DELETE ITEM ---
-  describe("Test Delete Item", () => {
+  describe("Test Delete Function", () => {
     const items = [pinapple, beef, pork, cheese, tomato, olive];
-    test.each(items)("add %p to the database", async (item) => {
-      // create a new item in the database
+    test.each(items)("delete %s from the database", async (item) => {
+      // delete each item from the database
       const res = await deleteItem(item);
       expect(res).not.toBeNull();
-
-
-      // afterEach(async () => {
-        await prisma.$disconnect();
-      // });
+    });
   });
 });
