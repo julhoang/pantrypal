@@ -61,90 +61,12 @@ const olive: Item = {
 describe("Test All Functions", () => {
   // --- TEST CREATE ITEM ---
   describe("Test Create Functions", () => {
-    test("add pinapple to the database", async () => {
+    // create an array of test items
+    const items = [pinapple, beef, pork, cheese, tomato, olive];
+
+    // loop through each item and test
+    test.each(items)("add %p to the database", async (item) => {
       // create a new item in the database
-      const item: Item = pinapple;
-
-      const res = await createItem(item);
-      expect(res).not.toBeNull();
-
-      const dbItem = await prisma.item.findUnique({
-        where: {
-          name: item.name,
-        },
-      });
-
-      expect(res).toEqual(dbItem);
-    });
-
-    test("add beef to the database", async () => {
-      // create a new item in the database
-      const item: Item = beef;
-
-      const res = await createItem(item);
-      expect(res).not.toBeNull();
-
-      const dbItem = await prisma.item.findUnique({
-        where: {
-          name: item.name,
-        },
-      });
-
-      expect(res).toEqual(dbItem);
-    });
-
-    test("add pork to the database", async () => {
-      // create a new item in the database
-      const item: Item = pork;
-
-      const res = await createItem(item);
-      expect(res).not.toBeNull();
-
-      const dbItem = await prisma.item.findUnique({
-        where: {
-          name: item.name,
-        },
-      });
-
-      expect(res).toEqual(dbItem);
-    });
-
-    test("add cheese to the database", async () => {
-      // create a new item in the database
-      const item: Item = cheese;
-
-      const res = await createItem(item);
-      expect(res).not.toBeNull();
-
-      const dbItem = await prisma.item.findUnique({
-        where: {
-          name: item.name,
-        },
-      });
-
-      expect(res).toEqual(dbItem);
-    });
-
-    test("add tomato to the database", async () => {
-      // create a new item in the database
-      const item: Item = tomato;
-
-      const res = await createItem(item);
-      expect(res).not.toBeNull();
-
-      const dbItem = await prisma.item.findUnique({
-        where: {
-          name: item.name,
-        },
-      });
-
-      expect(res).toEqual(dbItem);
-    });
-
-    test("add olive to the database", async () => {
-      // create a new item in the database
-      const item: Item = olive;
-
       const res = await createItem(item);
       expect(res).not.toBeNull();
 
@@ -170,8 +92,6 @@ describe("Test All Functions", () => {
       };
 
       const res = await fetchItem(item);
-      expect(res).not.toBeNull();
-
       expect(res).toContainEqual(beef);
     });
 
@@ -185,8 +105,6 @@ describe("Test All Functions", () => {
       };
 
       const res = await fetchItem(item);
-      expect(res).not.toBeNull();
-
       expect(res).toContainEqual(cheese);
     });
 
@@ -200,8 +118,6 @@ describe("Test All Functions", () => {
       };
 
       const res = await fetchItem(item);
-      expect(res).not.toBeNull();
-
       expect(res).toContainEqual(olive);
     });
 
@@ -214,12 +130,8 @@ describe("Test All Functions", () => {
         type: "meat",
       };
 
-      let itemExpected: Item[] = [beef, pork];
-
       const res = await fetchItem(item);
-      expect(res).not.toBeNull();
-
-      expect(res).toEqual(itemExpected);
+      expect(res).toEqual([beef, pork]);
     });
   });
 
