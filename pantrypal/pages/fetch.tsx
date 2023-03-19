@@ -17,7 +17,7 @@ const findEntry: React.FC = () => {
       headers: {
         "Content-Type": "application/json",
       },
-     /* body: JSON.stringify({
+      /* body: JSON.stringify({
         name: name.current?.value,
         expiry: expiry.current?.value,
         notes: null,
