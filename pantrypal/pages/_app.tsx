@@ -1,22 +1,19 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { callAPI } from './api/apiCall'
-
-const query = {
-  mainQuery: "Celery",
-  numIngr: 5
-}
+import { getRecipe } from './api/getRecipe';
+import { queryString } from './api/queryString';
 
 let recipes = [];
 
 function queryAPI (){
-    const response = callAPI(query);
+    const query = queryString(['apple'], [], []);
+    const response = getRecipe(query);
     // recipes = response.hits[0];
 }
 
 export default function App({ Component, pageProps }: AppProps) {
   return <>
     <Component {...pageProps} />
-    <button onClick={()=> callAPI(query)}>Make API call</button>
+    <button onClick={()=> queryAPI()}>Make API call</button>
   </>
 }
