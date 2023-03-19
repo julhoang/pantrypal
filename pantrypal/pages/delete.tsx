@@ -1,4 +1,4 @@
-import { deleteItem } from "./api/delete";
+import { deleteItem } from "./api/deleteItem";
 import React, { useState } from "react";
 
 const DeleteItem = () => {
