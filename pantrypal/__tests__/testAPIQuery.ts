@@ -1,5 +1,6 @@
 
-import { queryString } from "../pages/api/queryString";
+
+import { queryString } from "@/pages/api/getRecipe";
 import { expect, test } from "@jest/globals";
 
 test("No query items", async () => {
