@@ -49,7 +49,7 @@ const tomato: Item = {
   name: "tomato-test",
   expiry: next3days,
   notes: "this is a test",
-  type: "vegetable",
+  type: "meat",
 };
 
 const olive: Item = {
@@ -133,7 +133,7 @@ describe("Test All Functions", () => {
       };
 
       const res = await fetchItem(item);
-      expect(res).toEqual([beef, pork]);
+      expect(res).toEqual([beef, pork, tomato]);
     });
   });
 
