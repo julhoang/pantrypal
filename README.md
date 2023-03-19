@@ -10,6 +10,7 @@ In your local machine, type the following commands:
 git clone https://github.com/uvic-seng321/project-requirement-rascals-15.git 
 cd project-requirement-rascals-15
 cd pantrypal
+npm install
 npm run dev
 ```
 
