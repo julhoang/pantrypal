@@ -3,7 +3,7 @@ import { expect, test, afterAll, describe } from "@jest/globals";
 import { Item, resType } from "../lib/types";
 import { fetchItem } from "../pages/api/fetchItem";
 import { createItem } from "../pages/api/createItem";
-import { queryString } from "../pages/api/queryString";
+import { queryString } from "../pages/api/getRecipe";
 
 const today = new Date();
 const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
