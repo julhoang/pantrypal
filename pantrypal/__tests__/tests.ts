@@ -2,9 +2,9 @@ import prisma from "../lib/prisma";
 import { createItem } from "../pages/api/createItem";
 import { expect, test, describe, beforeAll } from "@jest/globals";
 import { Item, resType } from "../lib/types";
-import { fetchItem } from "../pages/api/fetch";
+import { fetchItem } from "../pages/api/fetchItem";
 import { getExpiringItems } from "../pages/api/warningItems";
-import { deleteItem } from "../pages/api/delete";
+import { deleteItem } from "../pages/api/deleteItem";
 
 const today = new Date();
 const tomorrow = new Date(today.getTime() + 1 * 24 * 60 * 60 * 1000)
@@ -78,6 +78,11 @@ describe("Test All Functions", () => {
       });
 
       expect(res).toEqual(dbItem);
+    });
+
+    test("add duplicate item to the database", async () => {
+      const res = await createItem(pinapple);
+      expect(res).toBeNull();
     });
   });
 
@@ -164,6 +169,17 @@ describe("Test All Functions", () => {
       // delete each item from the database
       const res = await deleteItem(item);
       expect(res).not.toBeNull();
+    });
+
+    test("delete non-existent item from the database", async () => {
+      const badItem: Item = {
+        name: "non-existent-item",
+        expiry: "****",
+        notes: "****",
+        type: "****",
+      };
+      const res = await deleteItem(badItem);
+      expect(res).toEqual({ count: 0 });
     });
   });
 });
