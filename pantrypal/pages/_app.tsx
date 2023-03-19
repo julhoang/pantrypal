@@ -1,7 +1,6 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { getRecipe } from './api/getRecipe';
-import { queryString } from './api/queryString';
+import { getRecipe, queryString } from './api/getRecipe';
 
 let recipes = [];
 
