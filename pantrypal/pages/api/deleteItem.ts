@@ -20,9 +20,15 @@ import { Item } from "../../lib/types";
 
 // delete from database
 export async function deleteItem(item: Item) {
-  return await prisma.item.deleteMany({
-    where: {
-      name: item.name,
-    },
-  });
+  try {
+    const deleted = await prisma.item.deleteMany({
+      where: {
+        name: item.name,
+      },
+    });
+
+    return deleted;
+  } catch (e) {
+    return null;
+  }
 }

@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 import { expect, test, afterAll, describe } from "@jest/globals";
-import { Item, resType } from "../lib/types";
+import { Item } from "../lib/types";
 import { fetchItem } from "../pages/api/fetchItem";
 import { createItem } from "../pages/api/createItem";
 import { queryString } from "../pages/api/getRecipe";
@@ -38,47 +38,46 @@ const grape: Item = {
   type: "vegetable",
 };
 
- describe("integration tests", () => {
-    test("fetch by type from the database then get API string", async () => {
-        
+describe("integration tests", () => {
+  test("fetch by type from the database then get API string", async () => {
     //creating the items
     await createItem(Apple);
     await createItem(grape);
     await createItem(chicken);
 
-      // getting all the items that contain test in the name and putting them into an item array
-      const item: Item = {
-        name: "****",
-        expiry: "****",
-        notes: "****",
-        type: "vegetable",
-      };
+    // getting all the items that contain test in the name and putting them into an item array
+    const item: Item = {
+      name: "****",
+      expiry: "****",
+      notes: "****",
+      type: "vegetable",
+    };
 
-      const res = await fetchItem(item);
-      const itemName = new Array(10);
+    const res = await fetchItem(item);
+    const itemName = new Array(10);
 
-      if(res!=null){
-      for (let i= 0; i < res.length; i++){
-          const { name } = res[i];
-          itemName[i] = name;
-      };
-      };
+    if (res != null) {
+      for (let i = 0; i < res.length; i++) {
+        const { name } = res[i];
+        itemName[i] = name;
+      }
+    }
 
-      //making a mealType string
-      let mealType: string[] = ['Dinner'];
+    //making a mealType string
+    let mealType: string[] = ["Dinner"];
 
-      //making a health string
-      let health: string[] = ['vegetarian', 'dairy-free'];
-    
-      //call queryString to make a string to call the API with
-      const APIString: string = queryString(itemName, health, mealType);
+    //making a health string
+    let health: string[] = ["vegetarian", "dairy-free"];
 
-      expect(APIString).toEqual("https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=Apple&q=chicken&q=grape&health=vegetarian&health=dairy-free&mealType=Dinner");
+    //call queryString to make a string to call the API with
+    const APIString: string = queryString(itemName, health, mealType);
 
-    });
+    expect(APIString).toEqual(
+      "https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=Apple&q=chicken&q=grape&health=vegetarian&health=dairy-free&mealType=Dinner"
+    );
+  });
 
-    test("delete an item then fetch by type from the database then get API string", async () => {
-        
+  test("delete an item then fetch by type from the database then get API string", async () => {
     //deleting an item from the db
     await prisma.item.deleteMany({
       where: {
@@ -88,81 +87,81 @@ const grape: Item = {
       },
     });
 
-      // getting all the items that contain test in the name and putting them into an item array
-      const item: Item = {
-        name: "****",
-        expiry: "****",
-        notes: "****",
-        type: "vegetable",
-      };
+    // getting all the items that contain test in the name and putting them into an item array
+    const item: Item = {
+      name: "****",
+      expiry: "****",
+      notes: "****",
+      type: "vegetable",
+    };
 
-      const res = await fetchItem(item);
-      console.log(res);
-      const itemName = new Array(10);
+    const res = await fetchItem(item);
+    const itemName = new Array(10);
 
-      if(res!=null){
-      for (let i= 0; i < res.length; i++){
-          const { name } = res[i];
-          itemName[i] = name;
-      };
-      };
+    if (res != null) {
+      for (let i = 0; i < res.length; i++) {
+        const { name } = res[i];
+        itemName[i] = name;
+      }
+    }
 
-      //making a mealType string
-      let mealType: string[] = ['Dinner'];
+    //making a mealType string
+    let mealType: string[] = ["Dinner"];
 
-      //making a health string
-      let health: string[] = ['vegetarian', 'dairy-free'];
-    
-      //call queryString to make a string to call the API with
-      const APIString: string = queryString(itemName, health, mealType);
+    //making a health string
+    let health: string[] = ["vegetarian", "dairy-free"];
 
-      expect(APIString).toEqual("https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=chicken&q=grape&health=vegetarian&health=dairy-free&mealType=Dinner");
+    //call queryString to make a string to call the API with
+    const APIString: string = queryString(itemName, health, mealType);
 
-    });
-
-    test("fetch by name from the database then get API string", async () => {
-        
-      // getting all the items that contain test in the name and putting them into an item array
-      const item: Item = {
-        name: "chicken",
-        expiry: "****",
-        notes: "****",
-        type: "****",
-      };
-
-      const res = await fetchItem(item);
-      const itemName = new Array(10);
-
-      if(res!=null){
-      for (let i= 0; i < res.length; i++){
-          const { name } = res[i];
-          itemName[i] = name;
-      };
-      };
-
-      //making a mealType string
-      let mealType: string[] = ['Lunch'];
-
-      //making a health string
-      let health: string[] = ['vegetarian', 'dairy-free'];
-    
-      //call queryString to make a string to call the API with
-      const APIString: string = queryString(itemName, health, mealType);
-
-      expect(APIString).toEqual("https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=chicken&health=vegetarian&health=dairy-free&mealType=Lunch");
-
-    });
+    expect(APIString).toEqual(
+      "https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=chicken&q=grape&health=vegetarian&health=dairy-free&mealType=Dinner"
+    );
   });
+
+  test("fetch by name from the database then get API string", async () => {
+    // getting all the items that contain test in the name and putting them into an item array
+    const item: Item = {
+      name: "chicken",
+      expiry: "****",
+      notes: "****",
+      type: "****",
+    };
+
+    const res = await fetchItem(item);
+    const itemName = new Array(10);
+
+    if (res != null) {
+      for (let i = 0; i < res.length; i++) {
+        const { name } = res[i];
+        itemName[i] = name;
+      }
+    }
+
+    //making a mealType string
+    let mealType: string[] = ["Lunch"];
+
+    //making a health string
+    let health: string[] = ["vegetarian", "dairy-free"];
+
+    //call queryString to make a string to call the API with
+    const APIString: string = queryString(itemName, health, mealType);
+
+    expect(APIString).toEqual(
+      "https://api.edamam.com/api/recipes/v2?type=any&app_id=8abfce08&app_key=c06091d57ff7df242e3138a49727e0c4&q=chicken&health=vegetarian&health=dairy-free&mealType=Lunch"
+    );
+  });
+});
 
 //Deleting added items from the db to clean it up
 afterAll(async () => {
-    await prisma.item.deleteMany({
-      where: {
-        type: {
-          contains: "vegetable",
-        },
+  await prisma.item.deleteMany({
+    where: {
+      type: {
+        contains: "vegetable",
       },
-    });
-
-    await prisma.$disconnect();
+    },
   });
+
+  await prisma.$disconnect();
+});
