@@ -10,11 +10,15 @@
     "test": "jest -i"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.5.2",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@next/font": "13.2.1",
     "@prisma/client": "^4.11.0",
     "@types/node": "18.14.2",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "framer-motion": "^10.8.4",
     "next": "13.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
