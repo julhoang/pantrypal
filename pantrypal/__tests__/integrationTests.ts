@@ -1,6 +1,6 @@
 import prisma from "../lib/prisma";
 import { expect, test, afterAll, describe } from "@jest/globals";
-import { Item } from "../lib/types";
+import { Item, resType } from "../lib/types";
 import { fetchItem } from "../pages/api/fetchItem";
 import { createItem } from "../pages/api/createItem";
 import { queryString } from "../pages/api/getRecipe";
