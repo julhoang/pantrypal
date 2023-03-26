@@ -14,7 +14,7 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   });
 
-  console.log(JSON.stringify(items));
+console.log(JSON.stringify(items));
 
   return {
     props: {
