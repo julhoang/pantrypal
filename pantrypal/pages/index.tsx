@@ -31,6 +31,7 @@ const Table: React.FC<Props> = (props) => {
   return (
     <div>
       <Head>
+      <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.3/dist/bootstrap-table.min.css"/>
         <title>PantryPal</title>
         <meta
           name="description"
@@ -43,6 +44,8 @@ const Table: React.FC<Props> = (props) => {
       </Head>
       <main>
         <p>{JSON.stringify(props)}</p>
+
+        <script src="https://unpkg.com/bootstrap-table@1.21.3/dist/bootstrap-table.min.js"></script>
       </main>
     </div>
   );
