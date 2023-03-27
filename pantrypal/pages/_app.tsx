@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import { getRecipe, queryString } from './api/getRecipe';
 import { ChakraProvider } from '@chakra-ui/react';
 let recipes = [];
+import 'styles/scss/global.scss' // added
 
 function queryAPI (){
     const query = queryString(['apple'], [], []);
