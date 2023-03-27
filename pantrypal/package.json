@@ -11,7 +11,7 @@
     "test": "jest -i"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.5.2",
+    "@chakra-ui/react": "^2.5.4",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@next/font": "13.2.1",

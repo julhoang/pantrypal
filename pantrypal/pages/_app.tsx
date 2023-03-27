@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
+// import React from 'react';
 import { getRecipe, queryString } from './api/getRecipe';
 import { ChakraProvider } from '@chakra-ui/react';
 let recipes = [];
@@ -14,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps){
   return (
     <ChakraProvider>
     <Component {...pageProps} />
-    <button onClick={()=> queryAPI()}>Make API call</button>
+    {/* <button onClick={()=> queryAPI()}>Make API call</button> */}
   </ChakraProvider>
   );
 }
