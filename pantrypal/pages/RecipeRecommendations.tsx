@@ -1,7 +1,6 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-import React, { useRef } from "react";
 
-function RecipeRecommendations:React.FC = () => {
+function RecipeRecommendations() {
   return (
     <Box p={4}>
       <Heading as="h1" size="2xl">
