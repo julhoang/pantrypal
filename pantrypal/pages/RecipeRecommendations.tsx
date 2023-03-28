@@ -12,7 +12,7 @@ function RecipeRecommendations() {
           basic text to test Recipe Recommendations!
         </Text>
       </Box>
-      <RecipeDisplay/>
+      <RecipeDisplay res={null}/>
     </>
   );
 }
