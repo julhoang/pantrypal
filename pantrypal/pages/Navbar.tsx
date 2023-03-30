@@ -4,8 +4,6 @@ import Head from "next/head";
 import prisma from "@/lib/prisma";
 import { Item } from "@prisma/client";
 import { Box, Flex, Spacer, Link, Heading, Text , Stack, HStack} from "@chakra-ui/react";
-import { Button, ButtonGroup } from '@chakra-ui/react'
-import { FaBeer, FaFacebook, FaGithub, FaTwitter } from 'react-icons/fa';
 import Team from "./team";
 
 const Navbar = () => {
