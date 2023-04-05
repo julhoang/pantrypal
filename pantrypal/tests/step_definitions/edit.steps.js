@@ -1,4 +1,4 @@
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then , After} = require("cucumber");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
@@ -7,7 +7,7 @@ setDefaultTimeout(100 * 1000);
 
 let driver;
 
-Given("I am on the pantry page", async function () {
+Given("I am on the pantry page and want to edit an item", async function () {
 // Navigate to the pantry page
 driver = await new Builder().forBrowser("chrome").build();
 await driver.get("http://localhost:3000/pantry");
