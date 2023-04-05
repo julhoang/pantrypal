@@ -57,7 +57,6 @@ const Table: React.FC<Props> = (props) => {
       <main>
         {/* <p>{JSON.stringify(props)}</p> */}
         <div className="intro">
-        
           <Introduction></Introduction>
           <div className="buttons">
           <Social></Social>
