@@ -3,6 +3,9 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import prisma from "@/lib/prisma";
 import { Item } from "@prisma/client";
+import Navbar from "./Navbar";
+import Introduction from "./Introduction";
+import Social from "./Social";
 
 export const getStaticProps: GetStaticProps = async () => {
   const items = await prisma.item.findMany({
@@ -18,7 +21,7 @@ console.log(JSON.stringify(items));
 
   return {
     props: {
-      items,
+      // items,
     },
   };
 };
@@ -26,6 +29,13 @@ console.log(JSON.stringify(items));
 type Props = {
   items: Item[];
 };
+
+
+const maindiv = () => {
+  return(
+    <p>hello there</p>
+  );
+}
 
 const Table: React.FC<Props> = (props) => {
   return (
@@ -42,9 +52,17 @@ const Table: React.FC<Props> = (props) => {
           href="/favicon.ico"
         />
       </Head>
+      
+      <Navbar></Navbar>
       <main>
-        <p>{JSON.stringify(props)}</p>
-
+        {/* <p>{JSON.stringify(props)}</p> */}
+        <div className="intro">
+          <Introduction></Introduction>
+          <div className="buttons">
+          <Social></Social>
+          </div>
+        </div>
+       
         <script src="https://unpkg.com/bootstrap-table@1.21.3/dist/bootstrap-table.min.js"></script>
       </main>
     </div>
