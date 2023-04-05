@@ -13,3 +13,9 @@ export type resType = {
   notes: string;
   type: string;
 }[];
+
+export type ActionButtonsProps = {
+  id: string;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+};
