@@ -39,6 +39,16 @@ export default function DataTable({ columns, data }: { columns: Column[]; data: 
       spacing={4}
       w={800}
     >
+      {/* Search Bar */}
+      <InputGroup>
+        <InputLeftAddon children="Search" />
+        <Input
+          type="text"
+          value={globalFilter || ""}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+        />
+      </InputGroup>
+
       {/* Table */}
       <Table {...getTableProps()}>
         <Thead>
