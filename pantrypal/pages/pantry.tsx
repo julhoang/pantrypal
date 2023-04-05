@@ -28,13 +28,14 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
 
   // delete item from database
   // and update local state -> will not reload from prisma
-  async function onDelete(id: string) {
+  async function onDelete(name: string) {
+    console.log("delete", name);
     fetch("./api/deleteItem", {
       method: "DELETE",
-      body: id,
+      body: name,
     })
       .then(() => {
-        setItems((prevItems) => prevItems.filter((item) => item.name !== id));
+        setItems((prevItems) => prevItems.filter((item) => item.name !== name));
       })
       .catch((error) => {
         console.error("Error deleting item:", error);
@@ -55,7 +56,7 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
           <ActionButtons
             id={row.id}
             onEdit={onEdit}
-            onDelete={onDelete}
+            onDelete={() => onDelete(row.original.name)}
           />
         ),
       },
@@ -65,14 +66,14 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
 
   const data = useMemo(
     () =>
-      items.map((item: Item, index: number) => ({
+      items.map((item: Item) => ({
         ...item,
         id: item.name,
         actions: (
           <ActionButtons
             id={item.name}
             onEdit={onEdit}
-            onDelete={onDelete}
+            onDelete={() => onDelete(item.name)}
           />
         ),
       })),
