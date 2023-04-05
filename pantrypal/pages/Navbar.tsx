@@ -16,7 +16,7 @@ const Navbar = () => {
             </Heading>
           </Link>
           <Spacer />
-          <Link href="#" mr={4}>
+          <Link href="/pantry" mr={4}>
             Pantry
           </Link>
           <Link href="/Recipes" mr={4}>

@@ -12,6 +12,7 @@ import {
   InputLeftAddon,
   Stack,
 } from "@chakra-ui/react";
+import { Item } from "@prisma/client";
 
 export default function DataTable({ columns, data }: { columns: Column[]; data: Item[] }) {
   const {
