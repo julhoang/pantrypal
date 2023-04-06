@@ -47,5 +47,7 @@ Then("My DataTable does not contain {string}", async function (nameValue) {
 
   expect(nameFound).toBe(false);
 
+  await driver.close();
   await driver.quit();
+  // close the browser
 });
