@@ -1,15 +1,3 @@
-// Feature: Deleting item from DataTable
-
-// Scenario: Deleting item from DataTable
-//     Given My DataTable contains "apple"
-//     When I click "Delete" button from the row containing "apple" in DataTable
-//     Then My DataTable does not contain "apple"
-
-// write selenium code here to test the feature
-// Path: tests/step_definitions/delete.steps.js
-
-// Compare this snippet from tests/step_definitions/filtering.steps.js:
-
 const { Given, When, Then } = require("cucumber");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const { expect } = require("expect");
@@ -21,7 +9,7 @@ let driver;
 
 Given("My DataTable contains {string}", async function (string) {
   // Navigate to the home page
-  driver = await new Builder().forBrowser("safari").build();
+  driver = await new Builder().forBrowser("chrome").build();
   await driver.get("http://localhost:3000/pantry");
 });
 
@@ -37,9 +25,12 @@ When(
   }
 );
 
-Then("My DataTable does not contain {string}", async function (string) {
+Then("My DataTable does not contain {string}", async function (nameValue) {
   // Locate the table rows and check that the specified values are displayed in the correct columns
+
   await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
+
+  await new Promise((r) => setTimeout(r, 5000));
   const rows = await driver.findElements(By.css("tbody tr"));
 
   let nameFound = false;
