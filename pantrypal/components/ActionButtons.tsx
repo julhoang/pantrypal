@@ -12,7 +12,7 @@ export default function ActionButtons({ id, onEdit, onDelete }: ActionButtonsPro
       </Button>
       <Button
         variant="outline"
-        onClick={() => onDelete(String(id))}
+        onClick={() => onDelete(id)}
       >
         Delete
       </Button>
