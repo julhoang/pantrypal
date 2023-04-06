@@ -47,6 +47,7 @@ export default function DataTable({ columns, data }: { columns: Column[]; data: 
           type="text"
           value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
+          id="searchBar"
         />
       </InputGroup>
 
