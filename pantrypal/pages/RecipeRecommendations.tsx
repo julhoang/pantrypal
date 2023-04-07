@@ -1,10 +1,12 @@
-import { Box, Heading, Select, Spacer, Stack, StackDivider, Text, VStack} from "@chakra-ui/react";
+import { Box, Flex, Heading, Select, Spacer, Stack, StackDivider, Text, VStack} from "@chakra-ui/react";
 import prisma from "../lib/prisma";
 import React, { useRef, useState} from "react";
 import { Tag, TagLabel, TagLeftIcon, HStack, Button } from '@chakra-ui/react'
+import { queryString, getRecipe } from "./api/getRecipe";
+import RecipeDisplay from "./RecipeDisplay";
         
 
-var itemsSelected = [""];
+var itemsSelected:string [];
 var selectedMealType = [""];
 
 function handleOptionToggle (mealType: string){
@@ -79,6 +81,11 @@ function handleItemSelected (itemName: string){
   //check if the item is in the list 
   var inTheList = false;
   var i =0;
+
+  if(itemsSelected == null){
+    itemsSelected = [itemName];
+  }
+  else{
   for (i = 0; i < itemsSelected.length; i++) {
     if(itemsSelected[i] == itemName){//the item is in the list
       //REMOVE THE ITEM
@@ -89,8 +96,8 @@ function handleItemSelected (itemName: string){
   if(!inTheList){// it is not in the list
     itemsSelected[i] = itemName;
   }
-  alert(itemsSelected);
-  }
+}
+}
 
   function getItemNames(itemArray: string | any[]){
     var nameArray = new Array(100);
@@ -133,6 +140,7 @@ function Feature({title, itemNames, ...rest}){
 
 
 export default function PantryTable (props: { fruitItems: string | any[] | null; dairyItems: string | any[] | null; vegetableItems: string | any[] | null; meatItems: string | any[] | null; otherItems: string | any[] | null;}) {
+  const [recipeResults, setRecipeResults] = useState({});
   //defining all the variables that need to be use to populate the button names
   var fruitItemNames = [];
   var dairyItemNames = [];
@@ -172,41 +180,59 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
       
   return (
         <div>
-          <Stack spacing={4} align='stretch' >
-        <Feature 
-          title = 'FRUIT:'
-          itemNames = {fruitItemNames} 
-          />
-          <Feature 
-          title = 'DAIRY:'
-          itemNames = {dairyItemNames} 
-          />
-          <Feature 
-          title = 'VEGETABLE:'
-          itemNames = {vegetableItemNames} 
-          />
-          <Feature 
-          title = 'MEAT:'
-          itemNames = {meatItemNames} 
-          />
-          <Feature 
-          title = 'OTHER:'
-          itemNames = {otherItemNames} 
-          />
-      </Stack>
-      <label htmlFor="multi-select-dropdown">Select meal type:</label>
-      <select>
-        {options.map(option => (
-          <option
-            key={option.id}
-            value={option.id}
-            onClick={() => handleOptionToggle(option.label)}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
+          <Flex flexDirection={"row"} >
+            <Stack dir="row" flex='1' >
+              <Box overflowY="auto" margin={"auto"} maxWidth={"600px"} >
 
+                <Stack spacing={4} >
+                  <Feature 
+                    title = 'FRUIT:'
+                    itemNames = {fruitItemNames} 
+                    />
+                    <Feature 
+                    title = 'DAIRY:'
+                    itemNames = {dairyItemNames} 
+                    />
+                    <Feature 
+                    title = 'VEGETABLE:'
+                    itemNames = {vegetableItemNames} 
+                    />
+                    <Feature 
+                    title = 'MEAT:'
+                    itemNames = {meatItemNames} 
+                    />
+                    <Feature 
+                    title = 'OTHER:'
+                    itemNames = {otherItemNames} 
+                    />
+                <label htmlFor="multi-select-dropdown">Select meal type:</label>
+                <select>
+                  {options.map(option => (
+                    <option
+                    key={option.id}
+                    value={option.id}
+                    onClick={() => handleOptionToggle(option.label)}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                </Stack>
+                <Button id={"findRecipeButton"} onClick={async ()=>{
+                  const query = queryString(itemsSelected,[],[]);
+                  const result = await getRecipe(query); 
+                  setRecipeResults(result);
+                }}>
+                  Find Recipe
+                </Button>
+                </Box>
+              
+            </Stack>
+            <Box flex='1' >
+
+              <RecipeDisplay recipeList={recipeResults}/>
+            </Box>
+          </Flex>
       </div>
   );
 }

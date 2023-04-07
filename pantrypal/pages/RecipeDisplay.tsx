@@ -47,10 +47,10 @@ const RecipeDisplay = (props: recipeDisplayProps) =>{
     if(recipeList.length == 20){
         return (
             <>
-                <Box overflowY="auto" maxHeight="600px">
+                <Box overflowY="auto" maxHeight="600px" maxWidth="500px" >
                     {recipeList.map((recipe: any, index: number) =>
                     <>
-                        <Card maxWidth={"600px"} key={recipe["recipe"]["label"]} maxW={'lg'} margin={"0px auto 10px auto"} padding={"5px"}>
+                        <Card maxWidth={"400px"} key={recipe["recipe"]["label"]} maxW={'lg'} margin={"0px auto 10px auto"} padding={"5px"}>
                             <CardBody>
                                 <Heading size='md' textTransform='uppercase'>
                                     {recipe["recipe"]["label"]}
