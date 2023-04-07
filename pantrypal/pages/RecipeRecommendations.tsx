@@ -1,21 +1,12 @@
-import { Box, Heading, Text, VStack} from "@chakra-ui/react";
+import { Box, Heading, Spacer, Stack, StackDivider, Text, VStack} from "@chakra-ui/react";
 import prisma from "../lib/prisma";
 import { expect, test, afterAll, describe } from "@jest/globals";
 import { Item, resType } from "../lib/types";
 import { queryString } from "../pages/api/getRecipe";
 import React, { useRef, useState} from "react";
 import { FaAppleAlt} from 'react-icons/fa';
-import { ItemButtons } from './ItemButtons';
-
-import {
-  Tag,
-  TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-  TagCloseButton,
-  HStack,
-  Button,
-} from '@chakra-ui/react'
+import {TbMilk} from 'react-icons/tb';
+import { Tag, TagLabel, TagLeftIcon, HStack, Button } from '@chakra-ui/react'
 
 var itemsSelected = [""];
 
@@ -28,9 +19,6 @@ export async function getStaticProps() {
         },
     select: {
       name: true,
-      expiry: true,
-      notes: true,
-      type: true,
     },
   });
 
@@ -42,17 +30,45 @@ export async function getStaticProps() {
         },
     select: {
       name: true,
-      expiry: true,
-      notes: true,
-      type: true,
     },
   });
-  //console.log(JSON.stringify(dairyItems));
-
+  const vegetableItems = await prisma.item.findMany({
+    where: {
+          type: {
+            contains: "vegetable",
+          },
+        },
+    select: {
+      name: true,
+    },
+  });
+  const meatItems = await prisma.item.findMany({
+    where: {
+          type: {
+            contains: "meat",
+          },
+        },
+    select: {
+      name: true,
+    },
+  });
+  const otherItems = await prisma.item.findMany({
+    where: {
+          type: {
+            contains: "other",
+          },
+        },
+    select: {
+      name: true,
+    },
+  });
   return {
     props: {
       fruitItems,
       dairyItems,
+      vegetableItems,
+      meatItems,
+      otherItems,
     },
   };
 };
@@ -74,25 +90,76 @@ function handleItemSelected (itemName: string){
   alert(itemsSelected);
   }
 
-export default function PantryTable (props: { fruitItems: string | any[] | null; dairyItems: string | any[] | null; }) {
+  function getItemNames(itemArray: string | any[]){
+    var nameArray = new Array(100);
+    for (let i = 0; i < itemArray.length; i++) {
+      const { name } = itemArray[i];
+      nameArray[i] = name;
+    }
+    return nameArray;
+  }
+
+function Feature({title, itemNames, ...rest}){
+    const [active, setActive] = React.useState([]);
+  
+    const changeActive  = (buttonIndex) => {
+      if (active.includes(buttonIndex)) {
+        setActive(active.filter((index) => index !== buttonIndex)); // Deselect the button if it's already selected
+      } else {
+        setActive([...active, buttonIndex]); // Select the button
+      }
+    }
+  return(
+    <Box {...rest}>
+      <Tag size='md' variant='subtle' backgroundColor ='white' color= "black">
+                {title}
+            </Tag>
+            <HStack spacing={4}>
+            {itemNames.map((name, index) => (
+              <Button key = {index} id = {name} onClick= {() => {handleItemSelected(name); changeActive(index)}} style={{
+                backgroundColor: active.includes(index) ? 'green' : 'lightgreen',
+                color: active.includes(index) ? 'white' : 'grey',
+              }} >           
+                {name}
+              </Button>
+            ))}
+          </HStack>
+    </Box>
+  )
+  }
+
+
+
+export default function PantryTable (props: { fruitItems: string | any[] | null; dairyItems: string | any[] | null; vegetableItems: string | any[] | null; meatItems: string | any[] | null; otherItems: string | any[] | null;}) {
+  //defining all the variables that need to be use to populate the button names
+  var fruitItemNames = [];
+  var dairyItemNames = [];
+  var vegetableItemNames = [];
+  var meatItemNames = []; 
+  var otherItemNames = [];
 
   //get all the fruit item names from props.fruitItems
-  const fruitItemNames = new Array(100);
     if (props.fruitItems != null) {
-      for (let i = 0; i < props.fruitItems.length; i++) {
-        const { name } = props.fruitItems[i];
-        fruitItemNames[i] = name;
-      }
+      fruitItemNames = getItemNames(props.fruitItems);
     }
-
-    //get all the dairy item names from props.dairyItems
-    const dairyItemNames = new Array(100);
+  //get all the dairy item names from props.dairyItems
     if (props.dairyItems != null) {
-      for (let i = 0; i < props.dairyItems.length; i++) {
-        const { name } = props.dairyItems[i];
-        dairyItemNames[i] = name;
-      }
+      dairyItemNames = getItemNames(props.dairyItems);
     }
+  //get all the vegtable item names from props.vegtableItem
+    if (props.vegetableItems != null) {
+      vegetableItemNames = getItemNames(props.vegetableItems);
+    }
+     //get all the meat item names from props.meatItems
+     if (props.meatItems != null) {
+      meatItemNames = getItemNames(props.meatItems);
+    }
+     //get the other item names from props.otherItems
+     if (props.otherItems != null) {
+      otherItemNames = getItemNames(props.otherItems);
+    }
+    
+
 
     const [active, setActive] = React.useState([]);
 
@@ -105,20 +172,31 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
     }
   return (
         <div>
-        <Tag size='md' variant='subtle' backgroundColor ='white' color= "black">
-            <TagLeftIcon as={FaAppleAlt} />
-            <TagLabel>FRUITS:</TagLabel>
-        </Tag>
-        <HStack spacing={4}>
-        {fruitItemNames.map((name, index) => (
-          <Button key = {index} id = {name} onClick= {() => {handleItemSelected(name); changeActive(index)}} style={{
-            backgroundColor: active.includes(index) ? 'blue' : 'lightblue',
-            color: active.includes(index) ? 'white' : 'grey',
-          }} >           
-            {name}
-          </Button>
-        ))}
-      </HStack>
+          <Stack spacing={4} align='stretch' >
+        <Feature 
+          title = 'FRUIT:'
+          itemNames = {fruitItemNames} 
+          />
+          <Feature 
+          title = 'DAIRY:'
+          itemNames = {dairyItemNames} 
+          />
+          <Feature 
+          title = 'VEGETABLE:'
+          itemNames = {vegetableItemNames} 
+          />
+          <Feature 
+          title = 'MEAT:'
+          itemNames = {meatItemNames} 
+          />
+          <Feature 
+          title = 'OTHER:'
+          itemNames = {otherItemNames} 
+          />
+      
+      </Stack>
       </div>
   );
 }
+
+
