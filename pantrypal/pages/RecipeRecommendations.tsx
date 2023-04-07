@@ -1,14 +1,16 @@
-import { Box, Heading, Spacer, Stack, StackDivider, Text, VStack} from "@chakra-ui/react";
+import { Box, Heading, Select, Spacer, Stack, StackDivider, Text, VStack} from "@chakra-ui/react";
 import prisma from "../lib/prisma";
-import { expect, test, afterAll, describe } from "@jest/globals";
-import { Item, resType } from "../lib/types";
-import { queryString } from "../pages/api/getRecipe";
 import React, { useRef, useState} from "react";
-import { FaAppleAlt} from 'react-icons/fa';
-import {TbMilk} from 'react-icons/tb';
 import { Tag, TagLabel, TagLeftIcon, HStack, Button } from '@chakra-ui/react'
+        
 
 var itemsSelected = [""];
+var selectedMealType = [""];
+
+function handleOptionToggle (mealType: string){
+        selectedMealType = [mealType];
+        console.log(mealType);
+      }
 
 export async function getStaticProps() {
   const fruitItems = await prisma.item.findMany({
@@ -159,17 +161,15 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
       otherItemNames = getItemNames(props.otherItems);
     }
     
-
-
-    const [active, setActive] = React.useState([]);
-
-    const changeActive  = (buttonIndex) => {
-      if (active.includes(buttonIndex)) {
-        setActive(active.filter((index) => index !== buttonIndex)); // Deselect the button if it's already selected
-      } else {
-        setActive([...active, buttonIndex]); // Select the button
-      }
-    }
+      const options = [
+        { id: 1, label: 'Breakfast' },
+        { id: 2, label: 'Lunch' },
+        { id: 3, label: 'Dinner' },
+        { id: 4, label: 'Brunch' },
+        { id: 5, label: 'Snack' },
+        { id: 6, label: 'Teatime' },
+      ];
+      
   return (
         <div>
           <Stack spacing={4} align='stretch' >
@@ -193,8 +193,20 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
           title = 'OTHER:'
           itemNames = {otherItemNames} 
           />
-      
       </Stack>
+      <label htmlFor="multi-select-dropdown">Select meal type:</label>
+      <select>
+        {options.map(option => (
+          <option
+            key={option.id}
+            value={option.id}
+            onClick={() => handleOptionToggle(option.label)}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+
       </div>
   );
 }
