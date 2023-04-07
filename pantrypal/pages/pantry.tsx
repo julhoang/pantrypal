@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { GetStaticProps } from "next";
 import prisma from "@/lib/prisma";
-import { Item } from "@prisma/client";
+import { Item } from "@/lib/types";
 import { Column } from "react-table";
 import { Center } from "@chakra-ui/react";
 import Header from "@/components/Header";
@@ -21,9 +21,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Home({ items: initialItems }: { items: Item[] }) {
   const [items, setItems] = useState<Item[]>(initialItems);
+  const [modifiedRow, setModifiedRow] = useState<Item | undefined>(undefined);
 
+  // when user clicks edit, set the modifiedRow to the item that was clicked
   function onEdit(id: string) {
-    console.log("edit", id);
+    setModifiedRow(items && items.find((item) => item.name === id));
   }
 
   // delete item from database
@@ -54,9 +56,11 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
         disableSortBy: true,
         Cell: ({ row }) => (
           <ActionButtons
-            id={row.id}
+            id={row.original.name}
             onEdit={onEdit}
             onDelete={() => onDelete(row.original.name)}
+            modifiedRow={modifiedRow}
+            setModifiedRow={setModifiedRow}
           />
         ),
       },
@@ -69,11 +73,14 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
       items.map((item: Item) => ({
         ...item,
         id: item.name,
+        expiry: item.expiry.split("T")[0],
         actions: (
           <ActionButtons
             id={item.name}
             onEdit={onEdit}
             onDelete={() => onDelete(item.name)}
+            modifiedRow={modifiedRow}
+            setModifiedRow={setModifiedRow}
           />
         ),
       })),
@@ -92,6 +99,9 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
         <DataTable
           columns={columns}
           data={data}
+          modifiedRow={modifiedRow}
+          setModified={setModifiedRow}
+          setItems={setItems}
         />
       </Center>
     </Center>

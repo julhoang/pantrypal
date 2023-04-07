@@ -1,13 +1,26 @@
 import React, { useState } from "react";
-import {useTable, useFilters,useSortBy,useGlobalFilter,Column,} from "react-table";
-import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button, Select,} from "@chakra-ui/react";
-import { Item } from "@prisma/client";
+import { useTable, useFilters, useSortBy, useGlobalFilter, Column } from "react-table";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Stack,
+  Button,
+  Select,
+} from "@chakra-ui/react";
+import { Item, ItemType } from "@/lib/types";
 
 async function onCreate(item: Item) {
   try {
-    const response = await fetch("/api/createItem", {
-      method: "POST", 
-      headers: { "Content-Type": "application/json", },
+    await fetch("/api/createItem", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: item.name,
         expiry: item.expiry,
@@ -15,34 +28,15 @@ async function onCreate(item: Item) {
         type: item.type,
       }),
     });
-    if (!response.ok) {
-      throw new Error("Failed to create item");
-    }
-    const createdItem: Item = await response.json();
-    console.log("Created item:", createdItem);
   } catch (error) {
     console.error("Error creating item:", error);
   }
 }
 
-// async function onFetch(item:Item){
-//   try {
-//     const response = await fetch(`/api/fetchItem`, {
-//       method: "GET",
-//       headers: { "Content-Type": "application/json" },
-//     });
-//     if (!response.ok) {
-//       throw new Error("Failed to fetch item");
-//     }
-//     const item: Item = await response.json();
-//     console.log("Fetched item:", item);
-//     return item;
-//   } catch (error) {
-//     console.error("Error fetching item:", error);
-//   }
-// }
 async function onFetch(item: Item) {
-  const response = await fetch(`/api/fetchItem?name=${item.name}&expiry=${item.expiry}&type=${item.type}`);
+  const response = await fetch(
+    `/api/fetchItem?name=${item.name}&expiry=${item.expiry}&type=${item.type}`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch item");
   }
@@ -51,51 +45,65 @@ async function onFetch(item: Item) {
   return items;
 }
 
-
 export default function DataTable({
   columns,
   data,
+  modifiedRow,
+  setModified,
+  setItems,
 }: {
   columns: Column[];
   data: Item[];
-  // onCreate: (newItem: Item) => void;
+  modifiedRow: Item | undefined;
+  setModified: React.Dispatch<React.SetStateAction<Item | undefined>>;
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }) {
   const [newItemName, setNewItemName] = useState("");
   const [newItemExpiry, setNewItemExpiry] = useState("");
   const [newItemType, setNewItemType] = useState("");
   const [newItemNotes, setNewItemNotes] = useState("");
 
-async function handleCreateItem () {
-  const newItem = {
-    name: newItemName,
-    expiry: newItemExpiry,
-    type: newItemType,
-    notes: newItemNotes,
-  };
-  
-  const existingItems = await onFetch(newItem);
-  console.log("this is the existing item:", existingItems);
-  const itemExists = existingItems.some(item => item.name === newItem.name);
-  if (itemExists){
-    // Item already exists in the database, show a warning message
-    alert('Item already exists in the database');
-  } else {
-    // Item does not exist in the database, create it
-    await onCreate(newItem);
-    setNewItemName("");
-    setNewItemExpiry("");
-    setNewItemType("");
-    setNewItemNotes("");
+  async function handleCreateItem() {
+    const newItem: Item = {
+      name: newItemName,
+      expiry: newItemExpiry,
+      type: newItemType as ItemType,
+      notes: newItemNotes,
+    };
+
+    const existingItems = await onFetch(newItem);
+    const itemExists = existingItems.some((item) => item.name === newItem.name);
+    if (itemExists) {
+      // Item already exists in the database, show a warning message
+      alert("Item already exists in the database");
+    } else {
+      // Item does not exist in the database, create it
+      await onCreate(newItem);
+      setItems((items) => [...items, newItem]);
+      setNewItemName("");
+      setNewItemExpiry("");
+      setNewItemType("");
+      setNewItemNotes("");
+    }
   }
-};
-  
-  const { getTableProps, getTableBodyProps,headerGroups,rows,prepareRow,state,setGlobalFilter,} 
-    = useTable({ columns,data,},useFilters,useGlobalFilter,useSortBy );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable({ columns, data }, useFilters, useGlobalFilter, useSortBy);
 
   const { globalFilter } = state;
 
   return (
-    <Stack spacing={4} w={800}>
+    <Stack
+      spacing={4}
+      w={800}
+    >
       {/* Search Bar */}
       <InputGroup>
         <InputLeftAddon children="Search" />
@@ -115,14 +123,7 @@ async function handleCreateItem () {
               {headerGroup.headers.map((column) => (
                 <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-                  {/* <div>{column.canFilter ? column.render("Filter") : null}</div> */}
+                  <span>{column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}</span>
                 </Th>
               ))}
             </Tr>
@@ -133,70 +134,81 @@ async function handleCreateItem () {
             prepareRow(row);
             return (
               <Tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
-                ))}
+                {row.cells.map((cell, index) => {
+                  if (index === row.cells.length - 1 || !modifiedRow || index === 0) {
+                    // if this is the last column, render the regular cell content
+                    return <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>;
+                  }
+                  return (
+                    <Td {...cell.getCellProps()}>
+                      {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                        <Input
+                          defaultValue={cell.value}
+                          size="sm"
+                          borderRadius="md"
+                          borderWidth="1px"
+                          borderColor="gray.200"
+                          autoFocus
+                          onChange={(e) => {
+                            const updatedRow: Item = {
+                              ...modifiedRow,
+                              [cell.column.id]: e.target.value,
+                            };
+                            setModified(updatedRow);
+                          }}
+                        />
+                      ) : (
+                        cell.render("Cell")
+                      )}
+                    </Td>
+                  );
+                })}
               </Tr>
             );
           })}
         </Tbody>
       </Table>
-    
+
       {/* New Item Form */}
       <InputGroup>
-        <Input className="itemname"
+        <Input
+          className="itemname"
           placeholder="Item name"
           value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
         />
-        <Input className="expiry"
+        <Input
+          className="expiry"
           placeholder="Expiry"
           value={newItemExpiry}
           onChange={(e) => setNewItemExpiry(e.target.value)}
         />
-        {/* <DatePicker
-  selected={newItemExpiry}
-  onChange={(date) => setNewItemExpiry(date)}
-  placeholderText="Expiry"
-/> */}
-          {/* <Input
+        <Select
+          className="type"
           placeholder="Type"
           value={newItemType}
           onChange={(e) => setNewItemType(e.target.value)}
-        /> */}
-        <Select className="type"
-  placeholder="Type"
-  value={newItemType}
-  onChange={(e) => setNewItemType(e.target.value)}
->
-  <option value="fruit">Meat</option>
-  <option value="vegetable">Fruit</option>
-  <option value="meat">Meat</option>
-  <option value="dairy">Dairy</option>
-  <option value="other">Other</option>
-</Select>
-          <Input className="notes"
+        >
+          <option value="fruit">Fruit</option>
+          <option value="vegetable">Vegetable</option>
+          <option value="meat">Meat</option>
+          <option value="dairy">Dairy</option>
+          <option value="other">Other</option>
+        </Select>
+        <Input
+          className="notes"
           placeholder="Notes"
           value={newItemNotes}
           onChange={(e) => setNewItemNotes(e.target.value)}
         />
-        <Button className="create" padding={8} onClick={handleCreateItem}>Create Item</Button>
+        <Button
+          className="create"
+          padding={8}
+          onClick={handleCreateItem}
+        >
+          Create Item
+        </Button>
       </InputGroup>
     </Stack>
   );
 }
-
-
-// async function handleCreateItem (){
-  //     const newItem = {
-  //       name: newItemName,
-  //       expiry: newItemExpiry,
-  //       type: newItemType,
-  //       notes: newItemNotes,
-  //     };
-  //   await onCreate(newItem);
-  //   setNewItemName("");
-  //   setNewItemExpiry("");
-  //   setNewItemType("");
-  //   setNewItemNotes("");
-  // };
