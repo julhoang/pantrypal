@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {useTable, useFilters,useSortBy,useGlobalFilter,Column,} from "react-table";
 import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button,} from "@chakra-ui/react";
 import { Item } from "@prisma/client";
-// import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 async function onCreate(item: Item) {
   try {
@@ -26,6 +24,7 @@ async function onCreate(item: Item) {
     console.error("Error creating item:", error);
   }
 }
+
 
 export default function DataTable({
   columns,
