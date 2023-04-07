@@ -167,7 +167,7 @@ describe("Test All Functions", () => {
     const items = [pinapple, beef, pork, cheese, tomato, olive];
     test.each(items)("delete %s from the database", async (item) => {
       // delete each item from the database
-      const res = await deleteItem(item);
+      const res = await deleteItem(item.name);
       expect(res).not.toBeNull();
     });
 
@@ -178,7 +178,7 @@ describe("Test All Functions", () => {
         notes: "****",
         type: "****",
       };
-      const res = await deleteItem(badItem);
+      const res = await deleteItem(badItem.name);
       expect(res).toEqual({ count: 0 });
     });
   });

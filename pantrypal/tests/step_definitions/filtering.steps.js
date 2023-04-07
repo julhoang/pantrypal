@@ -2,7 +2,7 @@ const { Given, When, Then } = require("cucumber");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
-var { setDefaultTimeout } = require("cucumber");
+let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(100 * 1000);
 
 let driver;
