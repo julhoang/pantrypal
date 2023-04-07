@@ -6,7 +6,13 @@ let driver;
 
 Given("the user's query returned a list of recipes", async function(){
     driver = await new Builder().forBrowser("chrome").build();
+    //Selecting an item to query
     await driver.get("http://localhost:3000/RecipeRecommendations");
+    await driver.wait(until.elementLocated(By.xpath("//*[text()='cucumber']"), 50000));
+    const button = driver.findElement(By.xpath("//*[text()='cucumber']"));
+
+    button.click();
+
     const findRecipeButton = await driver.findElement(By.id("findRecipeButton"));
     findRecipeButton.click();
 });
