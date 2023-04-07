@@ -144,12 +144,12 @@ async function handleCreateItem () {
     
       {/* New Item Form */}
       <InputGroup>
-        <Input
+        <Input className="itemname"
           placeholder="Item name"
           value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
         />
-        <Input
+        <Input className="expiry"
           placeholder="Expiry"
           value={newItemExpiry}
           onChange={(e) => setNewItemExpiry(e.target.value)}
@@ -164,7 +164,7 @@ async function handleCreateItem () {
           value={newItemType}
           onChange={(e) => setNewItemType(e.target.value)}
         /> */}
-        <Select
+        <Select className="type"
   placeholder="Type"
   value={newItemType}
   onChange={(e) => setNewItemType(e.target.value)}
@@ -175,12 +175,12 @@ async function handleCreateItem () {
   <option value="dairy">Dairy</option>
   <option value="other">Other</option>
 </Select>
-          <Input
+          <Input className="notes"
           placeholder="Notes"
           value={newItemNotes}
           onChange={(e) => setNewItemNotes(e.target.value)}
         />
-        <Button padding={8} onClick={handleCreateItem}>Create Item</Button>
+        <Button className="create" padding={8} onClick={handleCreateItem}>Create Item</Button>
       </InputGroup>
     </Stack>
   );
