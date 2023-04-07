@@ -1,20 +1,45 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 import { Item } from "../../lib/types";
 
-// export default async function handleFetch(req: NextApiRequest, res: NextApiResponse){
-//     //calls the fetchItem function to find all the entiries with the specified data
-//     try {
-//     const item = fetchItem(req.body);
-//     console.log(item);
+export default async function handleFetch(req: NextApiRequest, res: NextApiResponse) {
+  // extract the data from the request query parameters
+  const name = req.query.name as string;
+  const expiry = req.query.expiry as string;
+  const type = req.query.type as string;
 
-//     // send the new item back to the client
-//     res.status(200).json(item);
-//   } catch (e) {
-//     console.log(e);
-//     res.status(500).json({ error: "Something went wrong when finding the item" });
-//   }
-// }
+  try {
+    const items = await prisma.item.findMany({
+      orderBy: {
+        expiry: "asc",
+      },
+      where: {
+        OR: [
+          {
+            name: {
+              contains: name,
+            },
+          },
+          {
+            expiry: {
+              contains: expiry,
+            },
+          },
+          {
+            type: {
+              contains: type,
+            },
+          },
+        ],
+      },
+    });
+    res.status(200).json(items);
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).json({ error: "Failed to fetch items" });
+  }
+}
+
 
 export async function fetchItem(itemDetails: Item) {
   // extract the data from the request (req) body

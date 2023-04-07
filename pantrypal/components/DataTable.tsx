@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {useTable, useFilters,useSortBy,useGlobalFilter,Column,} from "react-table";
-import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button,} from "@chakra-ui/react";
+import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button, Select,} from "@chakra-ui/react";
 import { Item } from "@prisma/client";
 
 async function onCreate(item: Item) {
@@ -25,6 +25,32 @@ async function onCreate(item: Item) {
   }
 }
 
+// async function onFetch(item:Item){
+//   try {
+//     const response = await fetch(`/api/fetchItem`, {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     if (!response.ok) {
+//       throw new Error("Failed to fetch item");
+//     }
+//     const item: Item = await response.json();
+//     console.log("Fetched item:", item);
+//     return item;
+//   } catch (error) {
+//     console.error("Error fetching item:", error);
+//   }
+// }
+async function onFetch(item: Item) {
+  const response = await fetch(`/api/fetchItem?name=${item.name}&expiry=${item.expiry}&type=${item.type}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch item");
+  }
+  const items: Item[] = await response.json();
+  console.log("Fetched items:", items);
+  return items;
+}
+
 
 export default function DataTable({
   columns,
@@ -39,18 +65,28 @@ export default function DataTable({
   const [newItemType, setNewItemType] = useState("");
   const [newItemNotes, setNewItemNotes] = useState("");
 
-  async function handleCreateItem (){
-    const newItem = {
-      name: newItemName,
-      expiry: newItemExpiry,
-      type: newItemType,
-      notes: newItemNotes,
-    };
-  await onCreate(newItem);
-  setNewItemName("");
-  setNewItemExpiry("");
-  setNewItemType("");
-  setNewItemNotes("");
+async function handleCreateItem () {
+  const newItem = {
+    name: newItemName,
+    expiry: newItemExpiry,
+    type: newItemType,
+    notes: newItemNotes,
+  };
+  
+  const existingItems = await onFetch(newItem);
+  console.log("this is the existing item:", existingItems);
+  const itemExists = existingItems.some(item => item.name === newItem.name);
+  if (itemExists){
+    // Item already exists in the database, show a warning message
+    alert('Item already exists in the database');
+  } else {
+    // Item does not exist in the database, create it
+    await onCreate(newItem);
+    setNewItemName("");
+    setNewItemExpiry("");
+    setNewItemType("");
+    setNewItemNotes("");
+  }
 };
   
   const { getTableProps, getTableBodyProps,headerGroups,rows,prepareRow,state,setGlobalFilter,} 
@@ -122,11 +158,22 @@ export default function DataTable({
   onChange={(date) => setNewItemExpiry(date)}
   placeholderText="Expiry"
 /> */}
-          <Input
+          {/* <Input
           placeholder="Type"
           value={newItemType}
           onChange={(e) => setNewItemType(e.target.value)}
-        />
+        /> */}
+        <Select
+  placeholder="Type"
+  value={newItemType}
+  onChange={(e) => setNewItemType(e.target.value)}
+>
+  <option value="fruit">Meat</option>
+  <option value="vegetable">Fruit</option>
+  <option value="meat">Meat</option>
+  <option value="dairy">Dairy</option>
+  <option value="other">Other</option>
+</Select>
           <Input
           placeholder="Notes"
           value={newItemNotes}
@@ -137,3 +184,18 @@ export default function DataTable({
     </Stack>
   );
 }
+
+
+// async function handleCreateItem (){
+  //     const newItem = {
+  //       name: newItemName,
+  //       expiry: newItemExpiry,
+  //       type: newItemType,
+  //       notes: newItemNotes,
+  //     };
+  //   await onCreate(newItem);
+  //   setNewItemName("");
+  //   setNewItemExpiry("");
+  //   setNewItemType("");
+  //   setNewItemNotes("");
+  // };
