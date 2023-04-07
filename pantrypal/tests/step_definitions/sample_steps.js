@@ -2,6 +2,9 @@ const { Given, When, Then } = require("cucumber");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
+let { setDefaultTimeout } = require("cucumber");
+setDefaultTimeout(100 * 1000);
+
 let driver;
 
 Given("I am on the Google home page", async function () {
@@ -23,3 +26,4 @@ Then("I should see {string} in the search results", async function (expectedResu
   expect(titles.some((title) => title.includes(expectedResult))).toBe(true);
   await driver.quit();
 });
+
