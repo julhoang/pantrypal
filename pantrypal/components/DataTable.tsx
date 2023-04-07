@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {useTable, useFilters,useSortBy,useGlobalFilter,Column,} from "react-table";
 import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button,} from "@chakra-ui/react";
 import { Item } from "@prisma/client";
+// import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 async function onCreate(item: Item) {
   try {
@@ -116,6 +118,11 @@ export default function DataTable({
           value={newItemExpiry}
           onChange={(e) => setNewItemExpiry(e.target.value)}
         />
+        {/* <DatePicker
+  selected={newItemExpiry}
+  onChange={(date) => setNewItemExpiry(date)}
+  placeholderText="Expiry"
+/> */}
           <Input
           placeholder="Type"
           value={newItemType}
