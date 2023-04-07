@@ -13,3 +13,7 @@ export type resType = {
   notes: string;
   type: string;
 }[];
+
+export type recipeDisplayProps = {
+  recipeList: any;
+}
