@@ -9,13 +9,29 @@ function modalContent (recipeList:any, index: number){
             <ModalHeader>{recipeList[index]["recipe"]["label"]}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                {recipeList[index]["recipe"]["ingredientLines"]}
+                <Image
+                    boxSize='150px'
+                    src={recipeList[index]["recipe"]["image"]}
+                    alt='Recipe Preview'
+                    />
+                <Heading size='md' textTransform='uppercase'>
+                    Ingredients
+                </Heading>
+                {recipeList[index]["recipe"]["ingredientLines"].map((ingredient: string)=> 
+                    <text>
+                        {ingredient}
+                        <br/>
+                    </text>
+                )}
             </ModalBody>
 
             <ModalFooter>
-                {/* <Button colorScheme='blue' mr={3} onClick={onClose}>
-                Close
-                </Button> */}
+                <Button id={"recipeSourceButton-" + index.toString()} colorScheme='blue' mr={3} onClick={()=>{
+                    console.log("clicked");
+                    window.open(recipeList[index]["recipe"]["url"], "_blank", "noreferrer");
+                }}>
+                Recipe Source/ Instructions
+                </Button>
             </ModalFooter>
         </ModalContent>
         </div>
@@ -27,13 +43,11 @@ const RecipeDisplay = (props: recipeDisplayProps) =>{
     const [ recipeNumber, setRecipeNumber ] = useState(0);
 
     const {recipeList} = props;
-    console.log("length");
-    console.log(recipeList.length);
 
     if(recipeList.length == 20){
         return (
             <>
-                <Box overflowY="auto" maxHeight="500px">
+                <Box overflowY="auto" maxHeight="600px">
                     {recipeList.map((recipe: any, index: number) =>
                     <>
                         <Card maxWidth={"600px"} key={recipe["recipe"]["label"]} maxW={'lg'} margin={"0px auto 10px auto"} padding={"5px"}>
@@ -63,7 +77,7 @@ const RecipeDisplay = (props: recipeDisplayProps) =>{
                                         </Text>
                                     </Stack>
                                 </Stack>
-                                <Button key={index} onClick={()=>{
+                                <Button key={index} id={"moreInfoButton-" + index.toString()} onClick={()=>{
                                         console.log(recipe);
                                         onOpen();
                                         setRecipeNumber(index);
@@ -75,7 +89,12 @@ const RecipeDisplay = (props: recipeDisplayProps) =>{
                         </Card>  
                         <Modal isOpen={isOpen} onClose={onClose}>
                             
-                            <ModalOverlay />
+                        <ModalOverlay
+                        bg='none'
+                        backdropFilter='auto'
+                        backdropContrast={"20%"}
+                        backdropBlur='2px'
+                        />
                             {modalContent(recipeList, recipeNumber)}
                         </Modal>
                     </>
