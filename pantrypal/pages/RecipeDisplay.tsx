@@ -44,7 +44,7 @@ const RecipeDisplay = (props: recipeDisplayProps) =>{
 
     const {recipeList} = props;
 
-    if(recipeList.length == 20){
+    if(recipeList.length > 0){
         return (
             <>
                 <Box overflowY="auto" maxHeight="600px" maxWidth="500px" >

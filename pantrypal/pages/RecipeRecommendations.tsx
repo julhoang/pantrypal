@@ -7,12 +7,9 @@ import RecipeDisplay from "./RecipeDisplay";
         
 
 var itemsSelected:string [];
-var selectedMealType = [""];
+var selectedMealType:string [];
+var selectedHealthOption:string [];
 
-function handleOptionToggle (mealType: string){
-        selectedMealType = [mealType];
-        console.log(mealType);
-      }
 
 export async function getStaticProps() {
   const fruitItems = await prisma.item.findMany({
@@ -168,15 +165,22 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
      if (props.otherItems != null) {
       otherItemNames = getItemNames(props.otherItems);
     }
-    
-      const options = [
-        { id: 1, label: 'Breakfast' },
-        { id: 2, label: 'Lunch' },
-        { id: 3, label: 'Dinner' },
-        { id: 4, label: 'Brunch' },
-        { id: 5, label: 'Snack' },
-        { id: 6, label: 'Teatime' },
-      ];
+      
+    const [value, setValue] = React.useState('');
+
+    const handleChange = (mealType) => {
+      setValue(mealType.target.value);
+      selectedMealType = [mealType.target.value];
+      if(mealType.target.value == "")selectedMealType =[];
+    };
+
+    const [health, setHealth] = React.useState('');
+
+    const handleSelected = (healthOption) => {
+      setHealth(healthOption.target.value);
+      selectedHealthOption = [healthOption.target.value];
+      if(healthOption.target.value == "")selectedHealthOption =[];
+    }
       
   return (
         <div>
@@ -205,21 +209,34 @@ export default function PantryTable (props: { fruitItems: string | any[] | null;
                     title = 'OTHER:'
                     itemNames = {otherItemNames} 
                     />
-                <label htmlFor="multi-select-dropdown">Select meal type:</label>
-                <select>
-                  {options.map(option => (
-                    <option
-                    key={option.id}
-                    value={option.id}
-                    onClick={() => handleOptionToggle(option.label)}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                <HStack>
+                  <label htmlFor="meal-type-dropdown">Meal type:</label>
+                  <Select width = "200px" variant='filled' value={value} onChange={handleChange}
+                  placeholder='Any'>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Teatime">Teatime</option>
+                    <option value="">Any</option>
+                  </Select>
+                </HStack>
+                <HStack>
+                  <label htmlFor="health-dropdown">Health:</label>
+                  <Select width = "200px" variant='filled' value={health} onChange={handleSelected}
+                  placeholder='Nothing'>
+                    <option value="dairy-free">Dairy Free</option>
+                    <option value="gluten-free">Gluten Free</option>
+                    <option value="alcohol-free">Alcohol Free</option>
+                    <option value="peanut-free">Peanut Free</option>
+                    <option value="vegan">Vegan</option>
+                    <option value="vegetarian">Vegetarian</option>
+                  </Select>
+                </HStack>
                 </Stack>
-                <Button id={"findRecipeButton"} onClick={async ()=>{
-                  const query = queryString(itemsSelected,[],[]);
+                <Spacer />
+                <Button marginTop = "10px" id={"findRecipeButton"} onClick={async ()=>{
+                  const query = queryString(itemsSelected,selectedHealthOption,selectedMealType);
                   const result = await getRecipe(query); 
                   setRecipeResults(result);
                 }}>
