@@ -2,30 +2,50 @@ import React, { useState } from "react";
 import {useTable, useFilters,useSortBy,useGlobalFilter,Column,} from "react-table";
 import { Table,Thead,Tbody,Tr,Th,Td,Input,InputGroup,InputLeftAddon,Stack,Button,} from "@chakra-ui/react";
 import { Item } from "@prisma/client";
-import { createItem } from "@/pages/api/createItem";
+
+async function onCreate(item: Item) {
+  try {
+    const response = await fetch("/api/createItem", {
+      method: "POST", 
+      headers: { "Content-Type": "application/json", },
+      body: JSON.stringify({
+        name: item.name,
+        expiry: item.expiry,
+        notes: item.notes,
+        type: item.type,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to create item");
+    }
+    const createdItem: Item = await response.json();
+    console.log("Created item:", createdItem);
+  } catch (error) {
+    console.error("Error creating item:", error);
+  }
+}
 
 export default function DataTable({
   columns,
   data,
-  onCreateItem,
 }: {
   columns: Column[];
   data: Item[];
-  onCreateItem: (newItem: Item) => void;
+  // onCreate: (newItem: Item) => void;
 }) {
   const [newItemName, setNewItemName] = useState("");
   const [newItemExpiry, setNewItemExpiry] = useState("");
   const [newItemType, setNewItemType] = useState("");
   const [newItemNotes, setNewItemNotes] = useState("");
 
-  const handleCreateItem = () => {
+  async function handleCreateItem (){
     const newItem = {
       name: newItemName,
       expiry: newItemExpiry,
       type: newItemType,
       notes: newItemNotes,
     };
-  onCreateItem(newItem);
+  await onCreate(newItem);
   setNewItemName("");
   setNewItemExpiry("");
   setNewItemType("");
@@ -83,7 +103,7 @@ export default function DataTable({
           })}
         </Tbody>
       </Table>
-
+    
       {/* New Item Form */}
       <InputGroup>
         <Input
@@ -111,6 +131,3 @@ export default function DataTable({
     </Stack>
   );
 }
-
-
-
