@@ -107,6 +107,7 @@ export default function DataTable({
           value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           id="searchBar"
+          placeholder="Search by name, expiry, type, or notes"
         />
       </InputGroup>
 

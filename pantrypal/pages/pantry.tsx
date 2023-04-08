@@ -37,34 +37,33 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
   // delete item from database
   // and update local state -> will not reload from prisma
   async function onDelete(name: string) {
+    setItems((prevItems) => prevItems.filter((item) => item.name !== name));
+
     fetch("./api/deleteItem", {
       method: "DELETE",
       body: name,
-    })
-      .then(() => {
-        setItems((prevItems) => prevItems.filter((item) => item.name !== name));
-      })
-      .catch((error) => {
-        console.error("Error deleting item:", error);
-      });
+    }).catch((error) => {
+      alert("Error deleting item: " + name);
+    });
   }
 
+  // update item in database
+  // and update local state -> will not reload from prisma
   async function onSave() {
     if (modifiedRow) {
+      const name = modifiedRow.name;
+      setItems((prevItems) =>
+        prevItems.map((item) => (item.name === modifiedRow.name ? modifiedRow : item))
+      );
+      setModifiedRow(undefined);
+
       fetch("./api/updateItem", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(modifiedRow),
-      })
-        .then(() => {
-          setItems((prevItems) =>
-            prevItems.map((item) => (item.name === modifiedRow.name ? modifiedRow : item))
-          );
-          setModifiedRow(undefined);
-        })
-        .catch((error) => {
-          console.error("Error updating item:", error);
-        });
+      }).catch((error) => {
+        alert("Error updating item: " + name);
+      });
     }
   }
 
