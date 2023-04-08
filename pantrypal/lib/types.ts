@@ -14,6 +14,10 @@ export type resType = {
   type: string;
 }[];
 
+export type recipeDisplayProps = {
+  recipeList: any;
+}
+
 export type ActionButtonsProps = {
   id: string;
   onEdit: (id: string) => void;

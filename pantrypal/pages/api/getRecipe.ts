@@ -38,9 +38,12 @@ const getRecipe = async (query: string) => {
     try {
         const res = await fetch(query);
         const data = await res.json();
-        console.log(data);
+        console.log("Hello from get recipe");
+        // console.log(data);
+        // console.log("hits");
+        // console.log(data.hits);
 
-        return data;
+        return data.hits;
     } catch (err) {
         console.log(err);  
     }
