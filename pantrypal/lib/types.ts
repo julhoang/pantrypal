@@ -17,3 +17,12 @@ export type resType = {
 export type recipeDisplayProps = {
   recipeList: any;
 }
+
+export type ActionButtonsProps = {
+  id: string;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+  modifiedRow: Item | undefined;
+  setModifiedRow: React.Dispatch<React.SetStateAction<Item | undefined>>;
+  onSave: () => void;
+};

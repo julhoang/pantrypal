@@ -2,13 +2,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 import { Item } from "../../lib/types";
 
-export default async function updateItem(itemOrg: Item, itemNew: Item) {
-  const { name } = itemOrg; // getting the name of the item to update
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+  const updatedItem = await updateItem(req.body);
+  res.json(updatedItem);
+}
+
+export async function updateItem(newItem: Item) {
   const updatedItem = await prisma.item.update({
     where: {
-      name: name,
+      name: newItem.name,
     },
-    data: itemNew,
+    data: newItem,
   });
   return updatedItem;
 }

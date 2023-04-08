@@ -1,51 +1,32 @@
 import React from "react";
-import { GetStaticProps } from "next";
-import Head from "next/head";
-import prisma from "@/lib/prisma";
-import { Item } from "@prisma/client";
+import Navbar from "../components/Navbar";
+import Introduction from "../components/Introduction";
+import Social from "../components/Social";
+import Header from "@/components/Header";
+import { AbsoluteCenter, Box, Stack } from "@chakra-ui/react";
 
-export const getStaticProps: GetStaticProps = async () => {
-  const items = await prisma.item.findMany({
-    select: {
-      name: true,
-      expiry: true,
-      notes: true,
-      type: true,
-    },
-  });
-
-console.log(JSON.stringify(items));
-
-  return {
-    props: {
-      items,
-    },
-  };
-};
-
-type Props = {
-  items: Item[];
-};
-
-const Table: React.FC<Props> = (props) => {
+export default function HomePage() {
   return (
-    <div>
-      <Head>
-        <title>PantryPal</title>
-        <meta
-          name="description"
-          content="PantryPal"
-        />
-        <link
-          rel="icon"
-          href="/favicon.ico"
-        />
-      </Head>
-      <main>
-        <p>{JSON.stringify(props)}</p>
-      </main>
-    </div>
-  );
-};
+    <Box
+      position="relative"
+      height="100vh"
+      width={"100%"}
+      bg="gray.100"
+    >
+      <Header />
+      <Navbar currentPage={"home"} />
+      <AbsoluteCenter>
+        <Box
+          bg={"white"}
+          borderWidth={1}
+          borderRadius={8}
+          p={10}
+        >
+          <Introduction />
 
-export default Table;
+          <Social />
+        </Box>
+      </AbsoluteCenter>
+    </Box>
+  );
+}
