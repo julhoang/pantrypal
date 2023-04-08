@@ -14,19 +14,15 @@ import {
   Button,
   Select,
 } from "@chakra-ui/react";
-import { Item, ItemType } from "@/lib/types";
+import { Item } from "@/lib/types";
+import CreateForm from "./CreateForm";
 
 async function onCreate(item: Item) {
   try {
     await fetch("/api/createItem", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: item.name,
-        expiry: item.expiry,
-        notes: item.notes,
-        type: item.type,
-      }),
+      body: JSON.stringify(item),
     });
   } catch (error) {
     console.error("Error creating item:", error);
@@ -58,19 +54,14 @@ export default function DataTable({
   setModified: React.Dispatch<React.SetStateAction<Item | undefined>>;
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }) {
-  const [newItemName, setNewItemName] = useState("");
-  const [newItemExpiry, setNewItemExpiry] = useState("");
-  const [newItemType, setNewItemType] = useState("");
-  const [newItemNotes, setNewItemNotes] = useState("");
+  const [newItem, setNewItem] = useState<Item>({
+    name: "",
+    expiry: "",
+    type: "other",
+    notes: "",
+  });
 
   async function handleCreateItem() {
-    const newItem: Item = {
-      name: newItemName,
-      expiry: newItemExpiry,
-      type: newItemType as ItemType,
-      notes: newItemNotes,
-    };
-
     const existingItems = await onFetch(newItem);
     const itemExists = existingItems.some((item) => item.name === newItem.name);
     if (itemExists) {
@@ -80,10 +71,12 @@ export default function DataTable({
       // Item does not exist in the database, create it
       await onCreate(newItem);
       setItems((items) => [...items, newItem]);
-      setNewItemName("");
-      setNewItemExpiry("");
-      setNewItemType("");
-      setNewItemNotes("");
+      setNewItem({
+        name: "",
+        expiry: "",
+        type: "other",
+        notes: "",
+      });
     }
   }
 
@@ -233,46 +226,11 @@ export default function DataTable({
       </Table>
 
       {/* New Item Form */}
-      <InputGroup>
-        <Input
-          className="itemname"
-          placeholder="Item name"
-          value={newItemName}
-          onChange={(e) => setNewItemName(e.target.value)}
-        />
-        <Input
-          className="expiry"
-          placeholder="Expiry"
-          value={newItemExpiry}
-          onChange={(e) => setNewItemExpiry(e.target.value)}
-        />
-        <Select
-          className="type"
-          placeholder="Type"
-          value={newItemType}
-          onChange={(e) => setNewItemType(e.target.value)}
-        >
-          <option value="fruit">Fruit</option>
-          <option value="vegetable">Vegetable</option>
-          <option value="meat">Meat</option>
-          <option value="dairy">Dairy</option>
-          <option value="other">Other</option>
-        </Select>
-        <Input
-          className="notes"
-          placeholder="Notes"
-          value={newItemNotes}
-          onChange={(e) => setNewItemNotes(e.target.value)}
-        />
-        <Button
-          className="create"
-          paddingX={8}
-          paddingY={4}
-          onClick={handleCreateItem}
-        >
-          Add Item
-        </Button>
-      </InputGroup>
+      <CreateForm
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleCreateItem={handleCreateItem}
+      />
     </Stack>
   );
 }
