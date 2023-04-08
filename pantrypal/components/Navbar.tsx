@@ -42,7 +42,7 @@ const Navbar = ({ currentPage }: { currentPage: string }) => {
           </Link>
 
           <Link
-            href="/Recipes"
+            href="/recipes"
             style={{ textDecoration: "none" }}
           >
             <Button
