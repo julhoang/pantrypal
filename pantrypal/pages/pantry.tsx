@@ -7,6 +7,7 @@ import { Center } from "@chakra-ui/react";
 import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import ActionButtons from "@/components/ActionButtons";
+import Navbar from "@/components/Navbar";
 
 // upon page load, getStaticProps is called to fetch the data from the database
 export const getStaticProps: GetStaticProps = async () => {
@@ -108,22 +109,25 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
   );
 
   return (
-    <Center>
+    <>
       <Header />
-      <Center
-        border={"1px solid black"}
-        w={"90%"}
-        minW={900}
-        maxW={1200}
-      >
-        <DataTable
-          columns={columns}
-          data={data}
-          modifiedRow={modifiedRow}
-          setModified={setModifiedRow}
-          setItems={setItems}
-        />
+      <Navbar currentPage={"pantry"} />
+      <Center>
+        <Center
+          border={"1px solid black"}
+          w={"90%"}
+          minW={900}
+          maxW={1200}
+        >
+          <DataTable
+            columns={columns}
+            data={data}
+            modifiedRow={modifiedRow}
+            setModified={setModifiedRow}
+            setItems={setItems}
+          />
+        </Center>
       </Center>
-    </Center>
+    </>
   );
 }
