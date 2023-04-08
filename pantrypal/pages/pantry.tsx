@@ -3,15 +3,20 @@ import { GetStaticProps } from "next";
 import prisma from "@/lib/prisma";
 import { Item } from "@/lib/types";
 import { Column } from "react-table";
-import { Center } from "@chakra-ui/react";
+import { Center, Container, Stack, Heading } from "@chakra-ui/react";
 import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import ActionButtons from "@/components/ActionButtons";
 import Navbar from "@/components/Navbar";
+import Overview from "@/components/Overview";
 
 // upon page load, getStaticProps is called to fetch the data from the database
 export const getStaticProps: GetStaticProps = async () => {
-  const items = await prisma.item.findMany();
+  const items = await prisma.item.findMany({
+    orderBy: {
+      expiry: "asc",
+    },
+  });
 
   return {
     props: {
@@ -112,22 +117,49 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
     <>
       <Header />
       <Navbar currentPage={"pantry"} />
-      <Center>
-        <Center
-          border={"1px solid black"}
-          w={"90%"}
-          minW={900}
-          maxW={1200}
+
+      <Container
+        maxW="container.xl"
+        marginTop={5}
+      >
+        <Stack spacing={10}>
+          <Overview items={items} />
+        </Stack>
+      </Container>
+
+      <Container
+        maxW="container.xl"
+        marginTop={10}
+      >
+        <Heading
+          as={"h5"}
+          marginBottom={"5"}
         >
-          <DataTable
-            columns={columns}
-            data={data}
-            modifiedRow={modifiedRow}
-            setModified={setModifiedRow}
-            setItems={setItems}
-          />
+          My Pantry
+        </Heading>
+
+        <Center
+          bg={"grey.100"}
+          border="1px solid black"
+          marginTop={10}
+        >
+          <Center
+            w={"90%"}
+            minW={900}
+            maxW={1200}
+            bg={"white"}
+            borderRadius={10}
+          >
+            <DataTable
+              columns={columns}
+              data={data}
+              modifiedRow={modifiedRow}
+              setModified={setModifiedRow}
+              setItems={setItems}
+            />
+          </Center>
         </Center>
-      </Center>
+      </Container>
     </>
   );
 }
