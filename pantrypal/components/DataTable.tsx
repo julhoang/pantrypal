@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Item } from "@/lib/types";
 import CreateForm from "./CreateForm";
+import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
 
 async function onCreate(item: Item) {
   try {
@@ -95,7 +96,8 @@ export default function DataTable({
   return (
     <Stack
       spacing={4}
-      w={1200}
+      direction="column"
+      width={"100%"}
     >
       {/* Search Bar */}
       <InputGroup>
@@ -114,9 +116,23 @@ export default function DataTable({
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <Th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  <span>{column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}</span>
+                <Th
+                  style={{ lineHeight: "1.2" }}
+                  width={column.width}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
+                  <span>
+                    {column.render("Header")}
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <FaSortDown />
+                      ) : (
+                        <FaSortUp />
+                      )
+                    ) : (
+                      column.id !== "actions" && <FaSort />
+                    )}
+                  </span>
                 </Th>
               ))}
             </Tr>

@@ -140,13 +140,9 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
 
         <Center
           bg={"grey.100"}
-          border="1px solid black"
           marginTop={10}
         >
           <Center
-            w={"90%"}
-            minW={900}
-            maxW={1200}
             bg={"white"}
             borderRadius={10}
           >
