@@ -7,6 +7,7 @@ export default function ActionButtons({
   onDelete,
   modifiedRow,
   setModifiedRow,
+  onSave,
 }: ActionButtonsProps) {
   if (modifiedRow && modifiedRow.name === id) {
     return (
@@ -14,7 +15,7 @@ export default function ActionButtons({
         <Button
           variant="solid"
           colorScheme={"green"}
-          onClick={() => onEdit(id)}
+          onClick={onSave}
         >
           Save
         </Button>

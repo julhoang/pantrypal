@@ -20,4 +20,5 @@ export type ActionButtonsProps = {
   onDelete: (id: string) => void;
   modifiedRow: Item | undefined;
   setModifiedRow: React.Dispatch<React.SetStateAction<Item | undefined>>;
+  onSave: () => void;
 };

@@ -44,6 +44,31 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
       });
   }
 
+  async function onSave() {
+    console.log("save", modifiedRow);
+    if (modifiedRow) {
+      fetch("./api/updateItem", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: modifiedRow.name,
+          expiry: modifiedRow.expiry,
+          notes: modifiedRow.notes,
+          type: modifiedRow.type,
+        }),
+      })
+        .then(() => {
+          setItems((prevItems) =>
+            prevItems.map((item) => (item.name === modifiedRow.name ? modifiedRow : item))
+          );
+          setModifiedRow(undefined);
+        })
+        .catch((error) => {
+          console.error("Error updating item:", error);
+        });
+    }
+  }
+
   const columns: Column[] = useMemo(
     () => [
       { Header: "Name", accessor: "name", sortType: "basic", filter: "text" },
@@ -61,6 +86,7 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
             onDelete={() => onDelete(row.original.name)}
             modifiedRow={modifiedRow}
             setModifiedRow={setModifiedRow}
+            onSave={onSave}
           />
         ),
       },
@@ -81,6 +107,7 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
             onDelete={() => onDelete(item.name)}
             modifiedRow={modifiedRow}
             setModifiedRow={setModifiedRow}
+            onSave={onSave}
           />
         ),
       })),
