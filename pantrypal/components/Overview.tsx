@@ -54,6 +54,8 @@ function InfoBox({ stats, description }: { stats: number; description: string })
 }
 
 function ExpiryWarning({ items }: { items: Item[] }) {
+  items = items.sort((a, b) => new Date(a.expiry).getTime() - new Date(b.expiry).getTime());
+
   if (items.length > 0) {
     return (
       <>
