@@ -102,7 +102,7 @@ export default function DataTable({
   return (
     <Stack
       spacing={4}
-      w={800}
+      w={1200}
     >
       {/* Search Bar */}
       <InputGroup>
@@ -135,10 +135,73 @@ export default function DataTable({
             return (
               <Tr {...row.getRowProps()}>
                 {row.cells.map((cell, index) => {
-                  if (index === row.cells.length - 1 || !modifiedRow || index === 0) {
+                  // if this is the first column, render the row with the edit/delete buttons
+                  if (index === row.cells.length - 1 || index === 0) {
                     // if this is the last column, render the regular cell content
                     return <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>;
                   }
+
+                  // if this is the Expiry column, render the date picker
+                  if (index === 1) {
+                    return (
+                      <Td {...cell.getCellProps()}>
+                        {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                          <Input
+                            defaultValue={cell.value}
+                            size="sm"
+                            borderRadius="md"
+                            borderWidth="1px"
+                            borderColor="gray.200"
+                            autoFocus
+                            onChange={(e) => {
+                              const updatedRow: Item = {
+                                ...modifiedRow,
+                                [cell.column.id]: e.target.value,
+                              };
+                              setModified(updatedRow);
+                            }}
+                          />
+                        ) : (
+                          cell.render("Cell")
+                        )}
+                      </Td>
+                    );
+                  }
+
+                  // if this is the Type column, render the select dropdown
+                  if (index === 2) {
+                    return (
+                      <Td {...cell.getCellProps()}>
+                        {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                          <Select
+                            defaultValue={cell.value}
+                            size="sm"
+                            borderRadius="md"
+                            borderWidth="1px"
+                            borderColor="gray.200"
+                            autoFocus
+                            onChange={(e) => {
+                              const updatedRow: Item = {
+                                ...modifiedRow,
+                                [cell.column.id]: e.target.value,
+                              };
+                              setModified(updatedRow);
+                            }}
+                          >
+                            <option value="fruit">Fruit</option>
+                            <option value="vegetable">Vegetable</option>
+                            <option value="meat">Meat</option>
+                            <option value="dairy">Dairy</option>
+                            <option value="bread">Bread</option>
+                            <option value="other">Other</option>
+                          </Select>
+                        ) : (
+                          cell.render("Cell")
+                        )}
+                      </Td>
+                    );
+                  }
+
                   return (
                     <Td {...cell.getCellProps()}>
                       {modifiedRow && modifiedRow.name === cell.row.original.name ? (
@@ -203,10 +266,11 @@ export default function DataTable({
         />
         <Button
           className="create"
-          padding={8}
+          paddingX={8}
+          paddingY={4}
           onClick={handleCreateItem}
         >
-          Create Item
+          Add Item
         </Button>
       </InputGroup>
     </Stack>

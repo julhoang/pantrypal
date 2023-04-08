@@ -31,7 +31,6 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
   // delete item from database
   // and update local state -> will not reload from prisma
   async function onDelete(name: string) {
-    console.log("delete", name);
     fetch("./api/deleteItem", {
       method: "DELETE",
       body: name,
@@ -45,17 +44,11 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
   }
 
   async function onSave() {
-    console.log("save", modifiedRow);
     if (modifiedRow) {
       fetch("./api/updateItem", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: modifiedRow.name,
-          expiry: modifiedRow.expiry,
-          notes: modifiedRow.notes,
-          type: modifiedRow.type,
-        }),
+        body: JSON.stringify(modifiedRow),
       })
         .then(() => {
           setItems((prevItems) =>
