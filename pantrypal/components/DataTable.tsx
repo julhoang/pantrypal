@@ -11,7 +11,6 @@ import {
   InputGroup,
   InputLeftAddon,
   Stack,
-  Button,
   Select,
 } from "@chakra-ui/react";
 import { Item } from "@/lib/types";
@@ -26,20 +25,8 @@ async function onCreate(item: Item) {
       body: JSON.stringify(item),
     });
   } catch (error) {
-    console.error("Error creating item:", error);
+    alert("Error creating item: " + item.name);
   }
-}
-
-async function onFetch(item: Item) {
-  const response = await fetch(
-    `/api/fetchItem?name=${item.name}&expiry=${item.expiry}&type=${item.type}`
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch item");
-  }
-  const items: Item[] = await response.json();
-  console.log("Fetched items:", items);
-  return items;
 }
 
 export default function DataTable({
@@ -63,14 +50,13 @@ export default function DataTable({
   });
 
   async function handleCreateItem() {
-    const existingItems = await onFetch(newItem);
+    const existingItems = data;
     const itemExists = existingItems.some((item) => item.name === newItem.name);
+
     if (itemExists) {
-      // Item already exists in the database, show a warning message
-      alert("Item already exists in the database");
+      alert(newItem.name + " already exists in the database");
     } else {
       // Item does not exist in the database, create it
-      await onCreate(newItem);
       setItems((items) => [...items, newItem]);
       setNewItem({
         name: "",
@@ -78,6 +64,7 @@ export default function DataTable({
         type: "other",
         notes: "",
       });
+      await onCreate(newItem);
     }
   }
 
