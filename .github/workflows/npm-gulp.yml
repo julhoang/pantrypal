@@ -2,9 +2,9 @@ name: NodeJS with Gulp
 
 on:
   push:
-    branches: [ "main", "fetchItem" , "updateItem"]
+    branches: [ "main"]
   pull_request:
-    branches: [ "main", "fetchItem" , "updateItem"]
+    branches: [ "main"]
 
 jobs:
   build:
