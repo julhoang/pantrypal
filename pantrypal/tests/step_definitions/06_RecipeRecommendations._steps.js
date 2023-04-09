@@ -4,11 +4,15 @@ const { expect } = require("expect");
 
 let driver;
 
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--headless");
+
 let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(500 * 1000);
 
 Given("the user's query returned a list of recipes", async function () {
-  driver = await new Builder().forBrowser("chrome").build();
+  driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
   //Selecting an item to query
   await driver.get("http://localhost:3000/recipes");
   await driver.wait(until.elementLocated(By.xpath("//*[text()='cucumber']"), 50000));

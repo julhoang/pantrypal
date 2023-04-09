@@ -5,12 +5,16 @@ const { expect } = require("expect");
 let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(100 * 1000);
 
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--headless");
+
 let driver;
 
 Given("{string} is in the database", async function (item) {});
 
 When("I am on the recipe recomendation page", async function () {
-  driver = await new Builder().forBrowser("chrome").build();
+  driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
   await driver.get("http://localhost:3000/recipes");
 });
 

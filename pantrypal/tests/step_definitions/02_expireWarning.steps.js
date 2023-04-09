@@ -5,10 +5,14 @@ const { expect } = require("expect");
 let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(100 * 1000);
 
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--headless");
+
 let driver;
 
 Given("The user is looking at the table of items", async function () {
-  driver = await new Builder().forBrowser("chrome").build();
+  driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
   await driver.get("http://localhost:3000/pantry");
 });
 

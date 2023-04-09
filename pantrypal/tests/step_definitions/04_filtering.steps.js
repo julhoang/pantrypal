@@ -5,11 +5,15 @@ const { expect } = require("expect");
 let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(100 * 1000);
 
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--headless");
+
 let driver;
 
 Given("I am on the pantry page", async function () {
   // Navigate to the home page
-  driver = await new Builder().forBrowser("chrome").build();
+  driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
   await driver.get("http://localhost:3000/pantry");
 });
 

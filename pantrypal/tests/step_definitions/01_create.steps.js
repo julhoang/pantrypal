@@ -2,6 +2,10 @@ const { Given, When, Then } = require("cucumber");
 const { Builder, By, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--headless");
+
 let { setDefaultTimeout } = require("cucumber");
 setDefaultTimeout(100 * 1000);
 
@@ -9,7 +13,7 @@ let driver;
 
 Given("I am on the pantry page and the {string} is not in the DataTable", async function (string) {
   // Navigate to the home page
-  driver = await new Builder().forBrowser("chrome").build();
+  driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
   await driver.get("http://localhost:3000/pantry");
 });
 
