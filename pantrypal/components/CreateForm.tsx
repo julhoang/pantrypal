@@ -73,15 +73,14 @@ export default function CreateForm({
       />
       <Select
         className="type"
-        placeholder="Type"
         value={newItem.type}
         onChange={(e) => setNewItem({ ...newItem, type: e.target.value as ItemType })}
-      >
-        <option value="fruit">Fruit</option>
-        <option value="vegetable">Vegetable</option>
-        <option value="meat">Meat</option>
-        <option value="dairy">Dairy</option>
-        <option value="other">Other</option>
+        >
+        <option style={{color:"black"}} value="fruit">Fruit</option>
+        <option style={{color:"black"}} value="vegetable">Vegetable</option>
+        <option style={{color:"black"}} value="meat">Meat</option>
+        <option style={{color:"black"}} value="dairy">Dairy</option>
+        <option style={{color:"black"}} value="other">Other</option>
       </Select>
       <Input
         className="notes"
