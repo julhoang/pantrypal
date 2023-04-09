@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-import { Item } from "../../lib/types";
+import prisma from "../../lib/prisma";
 
 // main driver to handle request
 export default async function handleDelete(req: NextApiRequest, res: NextApiResponse) {
