@@ -31,11 +31,6 @@ When(
 );
 
 Then("My DataTable does not contain {string}", async function (nameValue) {
-  // Locate the table rows and check that the specified values are displayed in the correct columns
-
-  // await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
-
-  // await new Promise((r) => setTimeout(r, 5000));
   const rows = await driver.findElements(By.css("tbody tr"));
 
   let nameFound = false;
@@ -52,7 +47,5 @@ Then("My DataTable does not contain {string}", async function (nameValue) {
 
   expect(nameFound).toBe(false);
 
-  await driver.close();
   await driver.quit();
-  // close the browser
 });

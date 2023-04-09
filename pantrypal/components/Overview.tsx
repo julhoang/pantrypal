@@ -55,12 +55,12 @@ function InfoBox({ stats, description }: { stats: number; description: string })
 
 function ExpiryWarning({ items }: { items: Item[] }) {
   const today = new Date();
-  const twoDaysFromNow = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+  const threeDaysFromNow = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
 
   const expiring = items
     .filter((item) => {
       const expiryDate = new Date(item.expiry);
-      return expiryDate > today && expiryDate <= twoDaysFromNow;
+      return expiryDate > today && expiryDate <= threeDaysFromNow;
     })
     .sort((a, b) => new Date(a.expiry).getTime() - new Date(b.expiry).getTime());
 
@@ -93,6 +93,7 @@ function ExpiryWarning({ items }: { items: Item[] }) {
                 id={"expired-" + item}
                 colorScheme="red"
                 marginLeft={"2"}
+                key={item.name}
               >
                 {item.name}{" "}
               </Badge>
@@ -107,11 +108,13 @@ function ExpiryWarning({ items }: { items: Item[] }) {
             style={{ fontWeight: "600", marginTop: "3" }}
             id="expiring-warning"
           >
-            {expiring.length} items expiring in the next two days:{" "}
+            {expiring.length} items expiring in the next three days:{" "}
             {expiring.map((item) => (
               <Badge
+                id={"expiring-" + item}
                 colorScheme="orange"
                 marginLeft={"2"}
+                key={item.name}
               >
                 {item.name}{" "}
               </Badge>
