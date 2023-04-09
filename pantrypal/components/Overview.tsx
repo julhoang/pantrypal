@@ -90,7 +90,7 @@ function ExpiryWarning({ items }: { items: Item[] }) {
             {expired.length} items already expired:{" "}
             {expired.map((item) => (
               <Badge
-                id={"expired-" + item}
+                id={"expired-" + item.name}
                 colorScheme="red"
                 marginLeft={"2"}
                 key={item.name}
@@ -111,7 +111,7 @@ function ExpiryWarning({ items }: { items: Item[] }) {
             {expiring.length} items expiring in the next three days:{" "}
             {expiring.map((item) => (
               <Badge
-                id={"expiring-" + item}
+                id={"expiring-" + item.name}
                 colorScheme="orange"
                 marginLeft={"2"}
                 key={item.name}

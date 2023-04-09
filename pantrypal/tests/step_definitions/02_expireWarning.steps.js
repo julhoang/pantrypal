@@ -1,8 +1,8 @@
-const { Given, When, Then } = require("cucumber");
-const { Builder, By } = require("selenium-webdriver");
+const { Given, When, Then } = require("@cucumber/cucumber");
+const { Builder, By, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
-let { setDefaultTimeout } = require("cucumber");
+let { setDefaultTimeout } = require("@cucumber/cucumber");
 setDefaultTimeout(100 * 1000);
 
 const chrome = require("selenium-webdriver/chrome");
@@ -19,14 +19,10 @@ Given("The user is looking at the table of items", async function () {
 When("{string} is expired", async function (itemName) {});
 
 Then("There is an indicator to show {string} is expired", async function (itemName) {
+  const warningZone = await driver.wait(until.elementLocated(By.id("warning-zone"), 50000));
   const item = await driver.findElement(By.id("expired-" + itemName));
-
-  let nameFound = false;
-  if (item == nameValue) {
-    nameFound = true;
-  }
-
-  expect(nameFound).toBe(true);
+  const itemText = await item.getText();
+  expect(String(itemText).toLowerCase()).toEqual(String(itemName).toLowerCase());
 
   await driver.quit();
 });

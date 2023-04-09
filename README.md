@@ -31,3 +31,5 @@ npm run testBDD
 ---
 
 Main: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg)
+
+[![CucumberReports: pantrypal](https://messages.cucumber.io/api/report-collections/c22ed8d4-1d36-4295-b787-e06376b945ee/badge)](https://reports.cucumber.io/report-collections/c22ed8d4-1d36-4295-b787-e06376b945ee)
