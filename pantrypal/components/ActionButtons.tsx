@@ -38,11 +38,12 @@ export default function ActionButtons({
         Edit
       </Button>
       <Button
+        data-testid={'deletebtn-'+{id}}
         variant="outline"
         onClick={() => onDelete(id)}
       >
-        Delete
-      </Button>
+      Delete
+    </Button>
     </ButtonGroup>
   );
 }

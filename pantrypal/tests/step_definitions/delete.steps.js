@@ -17,13 +17,12 @@ When(
   "I click {string} button from the row containing {string} in DataTable",
   async function (buttonName, item_name) {
     // find the row containing the specified value item_name
-    const row = await driver.findElement(By.xpath(`//td[contains(text(), "${item_name}")]`));
 
-    // Click on the specified button in the row
-    const button = await row.findElement(By.xpath(`//button[contains(text(), "${buttonName}")]`));
-    await button.click();
-  }
-);
+  //const button = await driver.wait(until.elementLocated(By.id("deletebtn-"+item_name), 50000));
+  //await button.click();
+  const deleteButton = await driver.wait(until.elementLocated(By.css(["data-testid=deletebtn-${item_name}"]), 50000));
+await deleteButton.click();
+});
 
 Then("My DataTable does not contain {string}", async function (nameValue) {
   // Locate the table rows and check that the specified values are displayed in the correct columns

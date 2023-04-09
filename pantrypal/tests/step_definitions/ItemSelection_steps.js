@@ -13,13 +13,14 @@ Given("{string} is in the database", async function (item) {
 
 When("I am on the recipe recomendation page", async function () {
   driver = await new Builder().forBrowser("chrome").build();
-  await driver.get("http://localhost:3000/Recipe");
+  await driver.get("http://localhost:3000/recipes");
 });
 
 Then("I should see {string} on the page", async function (nameValue) {
-  await driver.wait(until.elementLocated(By.xpath("//*[text()='Bannana']"), 50000));
+  await driver.wait(until.elementLocated(By.xpath("//*[text()='Banana']"), 5000));
 
-  const button = driver.findElement(By.xpath("//*[text()='Bannana']"));
+  const button = driver.findElement(By.id("Banana"));
+
  
   const name = await button.getText();
 
