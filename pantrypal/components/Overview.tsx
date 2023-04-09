@@ -90,6 +90,7 @@ function ExpiryWarning({ items }: { items: Item[] }) {
             {expired.length} items already expired:{" "}
             {expired.map((item) => (
               <Badge
+                id = {"expired-" + item}
                 colorScheme="red"
                 marginLeft={"2"}
               >
