@@ -1,9 +1,8 @@
-# PantryPal
+# PantryPal 🥕
 PantryPal is a web app that aims to help users manage their pantry more effectively and reduce food waste by tracking pantry items and recommending recipes using ingredients that will soon expire. This app will simplify the process of finding recipes and ensure that users maximize their ingredient usage before they go bad.
 
 
 ## Installation
-
 In your local machine, type the following commands:
 
 ```
@@ -14,10 +13,13 @@ npm install
 npm run dev
 ```
 
-To run all tests, make sure you are in ```./pantrypal```, then:
+## Testing
+
+To run all front-end tests, make sure you are in the ```./pantrypal``` directory, then:
 ```
-npm run test
+npm run testBDD
 ```
+⚠️ **Note**: Please **do not manually delete** ```cucumber``` and ```Banana``` as they are part of the test runners.
 
 ## Developer Team
 

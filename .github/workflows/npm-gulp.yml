@@ -2,9 +2,9 @@ name: NodeJS with Gulp
 
 on:
   push:
-    branches: [ "main"]
+    branches: ["main"]
   pull_request:
-    branches: [ "main"]
+    branches: ["main"]
 
 jobs:
   build:
@@ -18,16 +18,16 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Build
-      run: |
-        npm install     
-        npm install selenium-webdriver
-        npm run dev
-        npm run testBDD
+      - name: Build
+        run: |
+          npm install     
+          npm install selenium-webdriver react-table
+          npm run dev
+          npm run testBDD
