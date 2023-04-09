@@ -304,8 +304,24 @@ export default function PantryTable(props: {
                 setRecipeResults(result);
               }}
               bgGradient="linear(to-r, #00ff87, #60efff)"
-            >
+              _hover={{bgGradient:"linear(to-r, #02e87c, #59dceb)"}}
+              
+              >
               Find Recipes 🔍
+            </Button>
+            <Button
+              marginTop="30px"
+              marginLeft="10px"
+              id={"randomRecipeButton"}
+              onClick={async () => {
+                const query = queryString([], [], []) + "ingr=0%2B";
+                const result = await getRecipe(query);
+                setRecipeResults(result);
+              }}
+              bgGradient="linear(to-r, #00ff87, #60efff)"
+              _hover={{bgGradient:"linear(to-r, #02e87c, #59dceb)"}}
+            >
+              Random Recipe 🎲
             </Button>
           </Box>
         </Stack>
