@@ -16,20 +16,25 @@ Given("My DataTable contains {string}", async function (string) {
 When(
   "I click {string} button from the row containing {string} in DataTable",
   async function (buttonName, item_name) {
-    // find the row containing the specified value item_name
+    // find the table
+    await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
 
-  //const button = await driver.wait(until.elementLocated(By.id("deletebtn-"+item_name), 50000));
-  //await button.click();
-  const deleteButton = await driver.wait(until.elementLocated(By.css(["data-testid=deletebtn-${item_name}"]), 50000));
-await deleteButton.click();
-});
+    // find the row containing the item_name
+    const row = await driver.wait(until.elementLocated(By.id(`row-${String(item_name)}`), 10000));
+
+    // find the delete button in the found row by id deletebtn-<item_name>
+    const deleteButton = await row.findElement(By.className(`deletebtn`));
+
+    await deleteButton.click();
+  }
+);
 
 Then("My DataTable does not contain {string}", async function (nameValue) {
   // Locate the table rows and check that the specified values are displayed in the correct columns
 
-  await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
+  // await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
 
-  await new Promise((r) => setTimeout(r, 5000));
+  // await new Promise((r) => setTimeout(r, 5000));
   const rows = await driver.findElements(By.css("tbody tr"));
 
   let nameFound = false;

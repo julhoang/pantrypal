@@ -97,7 +97,10 @@ export default function DataTable({
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <Tr {...row.getRowProps()}>
+              <Tr
+                {...row.getRowProps()}
+                id={"row-" + row.original.name}
+              >
                 {row.cells.map((cell, index) => {
                   // if this is the first column, render the row with the edit/delete buttons
                   if (index === row.cells.length - 1 || index === 0) {
