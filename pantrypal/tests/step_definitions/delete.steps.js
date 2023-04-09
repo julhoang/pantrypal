@@ -24,6 +24,7 @@ When(
 
     // find the delete button in the found row by id deletebtn-<item_name>
     const deleteButton = await row.findElement(By.className(`deletebtn`));
+    await driver.executeScript("arguments[0].scrollIntoView()", deleteButton);
 
     await deleteButton.click();
   }
