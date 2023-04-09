@@ -32,7 +32,6 @@ jobs:
 
       - name: Build and start Next.js app
         run: |
-          gulp
           npm run dev &
 
       - name: Run tests
