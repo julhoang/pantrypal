@@ -307,6 +307,19 @@ export default function PantryTable(props: {
             >
               Find Recipes 🔍
             </Button>
+            <Button
+              marginTop="30px"
+              marginLeft="10px"
+              id={"randomRecipeButton"}
+              onClick={async () => {
+                const query = queryString([], [], []) + "ingr=0%2B";
+                const result = await getRecipe(query);
+                setRecipeResults(result);
+              }}
+              bgGradient="linear(to-r, #00ff87, #60efff)"
+            >
+              Random Recipe 🎲
+            </Button>
           </Box>
         </Stack>
         <Box flex="1">
