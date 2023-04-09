@@ -121,7 +121,9 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
                     />
                     <Stack direction={"column"}>
                       <Text>{"Meal Type: " + recipe["recipe"]["mealType"]}</Text>
-                      <Text>{"Est. Time: " + recipe["recipe"]["totalTime"]}</Text>
+                      {/* <Text>{"Est. Time: " + recipe["recipe"]["totalTime"]}</Text> */}
+                      <Text>{"Est. Time: " + ((recipe["recipe"]["totalTime"] == 0) ? "N/A" : recipe["recipe"]["totalTime"])}</Text>
+                      {/* lemons ? alert("please give me a lemonade") : alert("then give me a beer"); */}
                       <Text>{"Portions: " + recipe["recipe"]["yield"]}</Text>
                       <Text>
                         {"Number of Ingredients: " + recipe["recipe"]["ingredientLines"].length}

@@ -3,7 +3,6 @@ export function queryString(
   healthParams: string[],
   mealTypeParams: string[]
 ) {
-  // TODO add id and key to .env      resource: https://trekinbami.medium.com/using-environment-variables-in-react-6b0a99d83cf5
   const appID = "8abfce08";
   const appKey = "c06091d57ff7df242e3138a49727e0c4";
   const baseURL = `https://api.edamam.com/api/recipes/v2?type=any&app_id=${appID}&app_key=${appKey}&random=true&`;
@@ -32,11 +31,9 @@ export function queryString(
 }
 
 const getRecipe = async (query: string) => {
-  console.log("Trying api call...");
   try {
     const res = await fetch(query);
     const data = await res.json();
-    console.log("Hello from get recipe");
 
     return data.hits;
   } catch (err) {
