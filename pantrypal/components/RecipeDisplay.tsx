@@ -185,7 +185,7 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
                 No Recipes Found
             </Heading>
             <Text marginTop={4}>
-                Please select some ingredients first then press the Find Recipe!
+                Please select some ingredients and press the Find Recipe button!
             </Text>
             </CardBody>
         </Card>
