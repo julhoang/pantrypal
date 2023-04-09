@@ -1,4 +1,4 @@
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require("@cucumber/cucumber");
 const { Builder, By, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
@@ -6,7 +6,7 @@ const chrome = require("selenium-webdriver/chrome");
 const options = new chrome.Options();
 options.addArguments("--headless");
 
-let { setDefaultTimeout } = require("cucumber");
+let { setDefaultTimeout } = require("@cucumber/cucumber");
 setDefaultTimeout(100 * 1000);
 
 let driver;

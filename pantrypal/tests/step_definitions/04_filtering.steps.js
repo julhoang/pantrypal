@@ -1,8 +1,8 @@
-const { Given, When, Then } = require("cucumber");
+const { Given, When, Then } = require("@cucumber/cucumber");
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const { expect } = require("expect");
 
-let { setDefaultTimeout } = require("cucumber");
+let { setDefaultTimeout } = require("@cucumber/cucumber");
 setDefaultTimeout(100 * 1000);
 
 const chrome = require("selenium-webdriver/chrome");
