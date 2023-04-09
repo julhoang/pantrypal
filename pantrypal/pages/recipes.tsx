@@ -235,6 +235,7 @@ export default function PantryTable(props: {
               fontSize="lg"
               fontWeight={600}
               marginBottom={4}
+              marginTop={3}
             >
               Click on one or more ingredients below to find recipes
             </Text>
@@ -321,7 +322,7 @@ export default function PantryTable(props: {
               bgGradient="linear(to-r, #00ff87, #60efff)"
               _hover={{bgGradient:"linear(to-r, #02e87c, #59dceb)"}}
             >
-              Random Recipe 🎲
+              Random Recipes 🎲
             </Button>
           </Box>
         </Stack>
