@@ -19,7 +19,7 @@ export default function Overview({ items }: { items: Item[] }) {
 
         {items &&
           items.length > 0 &&
-          ["fruit", "vegetable", "meat", "dairy", "other"].map((category) => {
+          ["fruit🍎", "vegetable🥕", "meat🥩", "dairy🧀", "other🍴"].map((category) => {
             const filteredItems = items.filter((item) => item.type === category);
             return (
               <InfoBox

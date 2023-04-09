@@ -13,7 +13,7 @@ Given("{string} is in the database", async function (item) {
 
 When("I am on the recipe recomendation page", async function () {
   driver = await new Builder().forBrowser("chrome").build();
-  await driver.get("http://localhost:3000/RecipeRecommendations");
+  await driver.get("http://localhost:3000/Recipe");
 });
 
 Then("I should see {string} on the page", async function (nameValue) {
