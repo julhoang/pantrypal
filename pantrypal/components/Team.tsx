@@ -36,7 +36,7 @@ const Team = () => {
         </Heading>
         <Text mb={2}>V00968304</Text>
         <Text mb={4}>
-          Aman is a 3rd year Software Engineering student at the University of Victoria. His
+          Aman is a robust front end developer. His
           interests include creating high-quality, user-friendly applications.
         </Text>
       </Box>
