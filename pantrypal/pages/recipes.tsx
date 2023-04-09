@@ -304,7 +304,9 @@ export default function PantryTable(props: {
                 setRecipeResults(result);
               }}
               bgGradient="linear(to-r, #00ff87, #60efff)"
-            >
+              _hover={{bgGradient:"linear(to-r, #02e87c, #59dceb)"}}
+              
+              >
               Find Recipes 🔍
             </Button>
             <Button
@@ -317,6 +319,7 @@ export default function PantryTable(props: {
                 setRecipeResults(result);
               }}
               bgGradient="linear(to-r, #00ff87, #60efff)"
+              _hover={{bgGradient:"linear(to-r, #02e87c, #59dceb)"}}
             >
               Random Recipe 🎲
             </Button>
