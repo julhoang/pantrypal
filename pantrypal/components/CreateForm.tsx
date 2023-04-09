@@ -1,27 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputGroup, Input, Select, Button } from "@chakra-ui/react";
 import { Item, ItemType } from "@/lib/types";
 
 export default function CreateForm({
-  newItem,
-  setNewItem,
-  handleCreateItem,
+  data,
+  setItems,
 }: {
-  newItem: Item;
-  setNewItem: React.Dispatch<React.SetStateAction<Item>>;
-  handleCreateItem: () => void;
+  data: Item[];
+  setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }) {
+  const [newItem, setNewItem] = useState<Item>({
+    name: "",
+    expiry: "",
+    type: "other",
+    notes: "",
+  });
+
+  async function handleCreateItem() {
+    if (newItem.expiry && isNaN(Date.parse(newItem.expiry))) {
+      alert("Please enter a valid expiry date in the format YYYY-MM-DD");
+      return;
+    }
+
+    const existingItems = data;
+    const itemExists = existingItems.some((item) => item.name === newItem.name);
+
+    if (itemExists) {
+      alert(newItem.name + " already exists in the database");
+    } else {
+      // Item does not exist in the database, create it
+      setItems((items) => [...items, newItem]);
+      setNewItem({
+        name: "",
+        expiry: "",
+        type: "other",
+        notes: "",
+      });
+
+      try {
+        await fetch("/api/createItem", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newItem),
+        });
+      } catch (error) {
+        alert("Error creating item: " + newItem.name);
+      }
+    }
+  }
+
   return (
-    <InputGroup>
+    <InputGroup gap={5}>
       <Input
         className="itemname"
-        placeholder="Item name"
+        placeholder="Item name (required)"
         value={newItem.name}
         onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+        autoFocus
       />
       <Input
         className="expiry"
-        placeholder="Expiry"
+        placeholder="Expiry (optional)"
         value={newItem.expiry}
         onChange={(e) => setNewItem({ ...newItem, expiry: e.target.value })}
       />
@@ -39,15 +78,19 @@ export default function CreateForm({
       </Select>
       <Input
         className="notes"
-        placeholder="Notes"
+        placeholder="Notes (optional)"
         value={newItem.notes}
         onChange={(e) => setNewItem({ ...newItem, notes: e.target.value })}
       />
       <Button
-        className="create"
-        paddingX={8}
+        paddingX={10}
         paddingY={4}
         onClick={handleCreateItem}
+        bgGradient="linear(to-r, #00ff87, #60efff)"
+        color="black"
+        width={"md"}
+        isDisabled={newItem.name === ""}
+        className="create"
       >
         Add Item
       </Button>

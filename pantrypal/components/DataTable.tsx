@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTable, useFilters, useSortBy, useGlobalFilter, Column } from "react-table";
 import {
   Table,
@@ -14,20 +14,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { Item } from "@/lib/types";
-import CreateForm from "./CreateForm";
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
-
-async function onCreate(item: Item) {
-  try {
-    await fetch("/api/createItem", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    });
-  } catch (error) {
-    alert("Error creating item: " + item.name);
-  }
-}
 
 export default function DataTable({
   columns,
@@ -42,32 +29,6 @@ export default function DataTable({
   setModified: React.Dispatch<React.SetStateAction<Item | undefined>>;
   setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }) {
-  const [newItem, setNewItem] = useState<Item>({
-    name: "",
-    expiry: "",
-    type: "other",
-    notes: "",
-  });
-
-  async function handleCreateItem() {
-    const existingItems = data;
-    const itemExists = existingItems.some((item) => item.name === newItem.name);
-
-    if (itemExists) {
-      alert(newItem.name + " already exists in the database");
-    } else {
-      // Item does not exist in the database, create it
-      setItems((items) => [...items, newItem]);
-      setNewItem({
-        name: "",
-        expiry: "",
-        type: "other",
-        notes: "",
-      });
-      await onCreate(newItem);
-    }
-  }
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -84,17 +45,23 @@ export default function DataTable({
     <Stack
       spacing={4}
       direction="column"
-      width={"100%"}
+      border="1px solid #e2e8f0"
+      borderRadius="md"
+      borderTop={0}
     >
       {/* Search Bar */}
       <InputGroup>
-        <InputLeftAddon children="Search" />
+        <InputLeftAddon
+          borderBottomRadius={0}
+          children="Search"
+        />
         <Input
           type="text"
           value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           id="searchBar"
           placeholder="Search by name, expiry, type, or notes"
+          borderBottomRadius={0}
         />
       </InputGroup>
 
@@ -228,13 +195,6 @@ export default function DataTable({
           })}
         </Tbody>
       </Table>
-
-      {/* New Item Form */}
-      <CreateForm
-        newItem={newItem}
-        setNewItem={setNewItem}
-        handleCreateItem={handleCreateItem}
-      />
     </Stack>
   );
 }

@@ -3,12 +3,13 @@ import { GetStaticProps } from "next";
 import prisma from "@/lib/prisma";
 import { Item } from "@/lib/types";
 import { Column } from "react-table";
-import { Center, Container, Stack, Heading } from "@chakra-ui/react";
+import { Center, Container, Stack, Heading, Box } from "@chakra-ui/react";
 import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import ActionButtons from "@/components/ActionButtons";
 import Navbar from "@/components/Navbar";
 import Overview from "@/components/Overview";
+import CreateForm from "@/components/CreateForm";
 
 // upon page load, getStaticProps is called to fetch the data from the database
 export const getStaticProps: GetStaticProps = async () => {
@@ -140,6 +141,7 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
         <Center
           bg={"grey.100"}
           marginTop={10}
+          marginBottom={60}
         >
           <Center
             bg={"white"}
@@ -154,6 +156,24 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
             />
           </Center>
         </Center>
+        <Box
+          position="fixed"
+          bottom="0"
+          left="0"
+          right="0"
+          height="75px"
+          backgroundColor="gray.700"
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          px={40}
+        >
+          <CreateForm
+            data={items}
+            setItems={setItems}
+          />
+        </Box>
       </Container>
     </>
   );
