@@ -52,9 +52,21 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
   // and update local state -> will not reload from prisma
   async function onSave() {
     if (modifiedRow) {
+      // check if expiry date is valid
+      if (modifiedRow.expiry && isNaN(Date.parse(modifiedRow.expiry))) {
+        alert("Please enter a valid expiry date in the format YYYY-MM-DD");
+        return;
+      }
+
       const name = modifiedRow.name;
+      const date = modifiedRow.expiry
+        ? new Date(modifiedRow.expiry).toISOString().split("T")[0]
+        : "";
+
       setItems((prevItems) =>
-        prevItems.map((item) => (item.name === modifiedRow.name ? modifiedRow : item))
+        prevItems.map((item) =>
+          item.name === modifiedRow.name ? { ...modifiedRow, expiry: date } : item
+        )
       );
       setModifiedRow(undefined);
 
@@ -153,7 +165,6 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
               data={data}
               modifiedRow={modifiedRow}
               setModified={setModifiedRow}
-              setItems={setItems}
             />
           </Center>
         </Center>

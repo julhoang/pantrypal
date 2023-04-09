@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Heading, Text, Center, HStack, Badge } from "@chakra-ui/react";
+import { Box, Heading, Text, HStack, Badge } from "@chakra-ui/react";
 import { Item } from "@/lib/types";
 
 export default function Overview({ items }: { items: Item[] }) {
@@ -90,7 +90,7 @@ function ExpiryWarning({ items }: { items: Item[] }) {
             {expired.length} items already expired:{" "}
             {expired.map((item) => (
               <Badge
-                id = {"expired-" + item}
+                id={"expired-" + item}
                 colorScheme="red"
                 marginLeft={"2"}
               >

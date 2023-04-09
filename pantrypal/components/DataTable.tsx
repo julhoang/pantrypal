@@ -21,13 +21,11 @@ export default function DataTable({
   data,
   modifiedRow,
   setModified,
-  setItems,
 }: {
   columns: Column[];
   data: Item[];
   modifiedRow: Item | undefined;
   setModified: React.Dispatch<React.SetStateAction<Item | undefined>>;
-  setItems: React.Dispatch<React.SetStateAction<Item[]>>;
 }) {
   const {
     getTableProps,
