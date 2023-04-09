@@ -28,6 +28,6 @@ jobs:
       - name: Build
         run: |
           npm install     
-          npm install selenium-webdriver react-table
-          npm run dev
-          npm run testBDD
+          npm install -g chromedriver
+          selenium-side-runner -c "browserName=chrome"
+          selenium-side-runner testBDD
