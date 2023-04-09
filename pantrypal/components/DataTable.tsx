@@ -97,7 +97,7 @@ export default function DataTable({
             return (
               <Tr
                 {...row.getRowProps()}
-                id={"row-" + row.original.name}
+                id={"row-" + row.values.name}
               >
                 {row.cells.map((cell, index) => {
                   // if this is the first column, render the row with the edit/delete buttons
@@ -110,7 +110,7 @@ export default function DataTable({
                   if (index === 1) {
                     return (
                       <Td {...cell.getCellProps()}>
-                        {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                        {modifiedRow && modifiedRow.name === cell.row.values.name ? (
                           <Input
                             defaultValue={cell.value}
                             size="sm"
@@ -137,7 +137,7 @@ export default function DataTable({
                   if (index === 2) {
                     return (
                       <Td {...cell.getCellProps()}>
-                        {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                        {modifiedRow && modifiedRow.name === cell.row.values.name ? (
                           <Select
                             defaultValue={cell.value}
                             size="sm"
@@ -169,7 +169,7 @@ export default function DataTable({
 
                   return (
                     <Td {...cell.getCellProps()}>
-                      {modifiedRow && modifiedRow.name === cell.row.original.name ? (
+                      {modifiedRow && modifiedRow.name === cell.row.values.name ? (
                         <Input
                           defaultValue={cell.value}
                           size="sm"

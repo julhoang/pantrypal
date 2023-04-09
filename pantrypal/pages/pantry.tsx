@@ -92,9 +92,9 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
         disableSortBy: true,
         Cell: ({ row }) => (
           <ActionButtons
-            id={row.original.name}
+            id={row.values.name}
             onEdit={onEdit}
-            onDelete={() => onDelete(row.original.name)}
+            onDelete={() => onDelete(row.values.name)}
             modifiedRow={modifiedRow}
             setModifiedRow={setModifiedRow}
             onSave={onSave}
