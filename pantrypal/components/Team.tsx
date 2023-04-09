@@ -46,7 +46,7 @@ const Team = () => {
           size="md"
           mb={2}
         >
-          Chloe Zackarias
+          Chloe Zacharias
         </Heading>
         <Text mb={2}>V00961884</Text>
         <Text mb={4}>
