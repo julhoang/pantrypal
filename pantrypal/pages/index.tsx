@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Introduction from "../components/Introduction";
 import Social from "../components/Social";
 import Header from "@/components/Header";
-import { AbsoluteCenter, Box, Stack } from "@chakra-ui/react";
+import { AbsoluteCenter, Box } from "@chakra-ui/react";
 
 export default function HomePage() {
   return (

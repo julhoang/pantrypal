@@ -23,6 +23,7 @@ export default function Overview({ items }: { items: Item[] }) {
             const filteredItems = items.filter((item) => item.type === category.split(" ")[0]);
             return (
               <InfoBox
+                key={category}
                 stats={filteredItems.length}
                 description={`${category}`}
               />
