@@ -138,12 +138,13 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
               <Modal
                 isOpen={isOpen}
                 onClose={onClose}
+                scrollBehavior={'inside'}
+                closeOnOverlayClick={true}
+                blockScrollOnMount={false}
               >
                 <ModalOverlay
-                  bg="grey.100"
                   backdropFilter="auto"
-                  backdropContrast={"10%"}
-                  backdropBlur="2px"
+                  bg="grey"
                 />
                 {modalContent(recipeList, recipeNumber)}
               </Modal>
