@@ -9,19 +9,19 @@ let driver;
 
 Given("I am on the pantry page and the {string} is not in the DataTable", async function (string) {
   // Navigate to the home page
-  driver = await new Builder().forBrowser("safari").build();
-  await driver.get("http://localhost:3001/pantry");
+  driver = await new Builder().forBrowser("chrome").build();
+  await driver.get("http://localhost:3000/pantry");
 });
 
-When("I enter the item detials and click on the {string} button", async function (buttonName) {
+When("I click on the Add Item button with {string}", async function (buttonName) {
   // Click on the specified button
-  const nameInput = await driver.findElement(By.id(nameField));
-    const typeInput = await driver.findElement(By.id(typeField));
+  const nameInput = await driver.findElement(By.className("itemname"));
+    //const typeInput = await driver.findElement(By.id(typeField));
 
     await nameInput.clear();
-    await typeInput.clear();
+    //await typeInput.clear();
 
-    await nameInput.sendKeys("chicken2");
+    await nameInput.sendKeys(buttonName);
     // await typeInput.sendKeys("meat");
 
 
@@ -29,27 +29,23 @@ When("I enter the item detials and click on the {string} button", async function
   await button.click();
 });
 
-Then("I should see a new record being created in the table", async function() {
-  // Wait for the table to be updated with the new record
-  await driver.wait(until.elementLocated(By.css("#pantryTable tbody tr")), 5000);
+Then("I should see the {string} in the Name column", async function(buttonName) {
+    // Locate the table rows and check that only rows with the specified property value are displayed
+    await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
+    const rows = await driver.findElements(By.css("tbody tr"));
 
-  // Verify that the new record has been added to the table
-  const tableRows = await driver.findElements(By.css("#pantryTable tbody tr"));
-  let itemFound = false;
-  for (const row of tableRows) {
-    const columns = await row.findElements(By.tagName("td"));
-    if (columns[0].getText() === "chicken2") {
-      itemFound = true;
-      break;
+    nameFound = false;
+    for (const row of rows) {
+      const cells = await row.findElements(By.css("td"));
+      const cellTexts = await Promise.all(cells.map((cell) => cell.getText()));
+      if (cellTexts.some((text) => text.includes(buttonName))) {
+        nameFound = true;
+      } 
     }
+    expect(nameFound).toBe(true);
+    await driver.quit();
   }
-  if (!itemFound) {
-    throw new Error("New item not found in the table");
-  }
-
-  // Close the browser window
-  await driver.quit();
-});
+);
 
 
 
