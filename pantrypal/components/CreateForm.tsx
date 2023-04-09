@@ -28,8 +28,15 @@ export default function CreateForm({
     if (itemExists) {
       alert(newItem.name + " already exists in the database");
     } else {
+      const submitItem = {
+        name: newItem.name,
+        expiry: newItem.expiry ? new Date(newItem.expiry).toISOString().split("T")[0] : "",
+        type: newItem.type,
+        notes: newItem.notes,
+      };
+
       // Item does not exist in the database, create it
-      setItems((items) => [...items, newItem]);
+      setItems((items) => [...items, submitItem]);
       setNewItem({
         name: "",
         expiry: "",
@@ -41,7 +48,7 @@ export default function CreateForm({
         await fetch("/api/createItem", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newItem),
+          body: JSON.stringify(submitItem),
         });
       } catch (error) {
         alert("Error creating item: " + newItem.name);
@@ -60,7 +67,7 @@ export default function CreateForm({
       />
       <Input
         className="expiry"
-        placeholder="Expiry (optional)"
+        placeholder="Expiry (YYYY-MM-DD)"
         value={newItem.expiry}
         onChange={(e) => setNewItem({ ...newItem, expiry: e.target.value })}
       />
