@@ -26,17 +26,15 @@ Then(
     await driver.wait(until.elementLocated(By.css("tbody tr")), 50000);
     const rows = await driver.findElements(By.css("tbody tr"));
 
+    itemFound = false;
     for (const row of rows) {
       const cells = await row.findElements(By.css("td"));
       const cellTexts = await Promise.all(cells.map((cell) => cell.getText()));
       if (cellTexts.some((text) => text.includes(value))) {
-        continue;
-      } else {
-        throw new Error(
-          `Expected to see items with the ${property} ${value} but found row with texts: ${cellTexts}`
-        );
+        itemFound = true;
+      } 
       }
-    }
+      expect(itemFound).toBe(true);
 
     await driver.quit();
   }
