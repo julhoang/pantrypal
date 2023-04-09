@@ -99,6 +99,7 @@ export default function Home({ items: initialItems }: { items: Item[] }) {
         ...item,
         id: item.name,
         expiry: item.expiry.split("T")[0],
+        name: item.name,
         actions: (
           <ActionButtons
             id={item.name}
