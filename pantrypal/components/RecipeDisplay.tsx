@@ -25,7 +25,7 @@ import { useState } from "react";
 function modalContent(recipeList: any, index: number) {
   return (
     <div>
-      <ModalContent>
+      <ModalContent id="modal_content">
         <ModalHeader>{recipeList[index]["recipe"]["label"]}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -54,6 +54,7 @@ function modalContent(recipeList: any, index: number) {
 
         <ModalFooter>
           <Button
+            className="recipeSourceButton"
             id={"recipeSourceButton-" + index.toString()}
             bgGradient="linear(to-r, #00ff87, #60efff)"
             mr={3}
@@ -79,16 +80,22 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
 
   if (recipeList.length > 0) {
     return (
-        <>
+      <>
         <Box
-            marginTop={"15px"}
-            overflowY="auto"
-            maxHeight="600px"
-            maxWidth="500px"
+          marginTop={"15px"}
+          overflowY="auto"
+          maxHeight="600px"
+          maxWidth="500px"
         >
-            <Text textAlign={"center"} as='b' size={"md"}>Displaying {recipeList.length} Recipes</Text>
-            <Divider></Divider>
-            </Box>
+          <Text
+            textAlign={"center"}
+            as="b"
+            size={"md"}
+          >
+            Displaying {recipeList.length} Recipes
+          </Text>
+          <Divider></Divider>
+        </Box>
         <Box
           marginTop={"15px"}
           overflowY="auto"
@@ -105,7 +112,10 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
                 padding={"5px"}
               >
                 <CardBody>
-                  <Heading size="md" textTransform="uppercase" >
+                  <Heading
+                    size="md"
+                    textTransform="uppercase"
+                  >
                     {recipe["recipe"]["label"]}
                   </Heading>
                   <Divider />
@@ -121,9 +131,14 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
                     />
                     <Stack direction={"column"}>
                       <Text>{"Meal Type: " + recipe["recipe"]["mealType"]}</Text>
-                      {/* <Text>{"Est. Time: " + recipe["recipe"]["totalTime"]}</Text> */}
-                      <Text>{"Est. Time: " + ((recipe["recipe"]["totalTime"] == 0) ? "N/A" : recipe["recipe"]["totalTime"])}</Text>
-                      {/* lemons ? alert("please give me a lemonade") : alert("then give me a beer"); */}
+
+                      <Text>
+                        {"Est. Time: " +
+                          (recipe["recipe"]["totalTime"] == 0
+                            ? "N/A"
+                            : recipe["recipe"]["totalTime"])}
+                      </Text>
+
                       <Text>{"Portions: " + recipe["recipe"]["yield"]}</Text>
                       <Text>
                         {"Number of Ingredients: " + recipe["recipe"]["ingredientLines"].length}
@@ -147,9 +162,10 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
               <Modal
                 isOpen={isOpen}
                 onClose={onClose}
-                scrollBehavior={'inside'}
+                scrollBehavior={"inside"}
                 closeOnOverlayClick={true}
                 blockScrollOnMount={false}
+                id="recipeModal"
               >
                 <ModalOverlay
                   backdropFilter="auto"
@@ -166,33 +182,45 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
 
   return (
     <>
-        <Box
-            marginTop={"15px"}
-            overflowY="auto"
-            maxHeight="600px"
-            maxWidth="500px"
+      <Box
+        marginTop={"15px"}
+        overflowY="auto"
+        maxHeight="600px"
+        maxWidth="500px"
+      >
+        <Text
+          textAlign={"center"}
+          as="b"
+          size={"md"}
         >
-            <Text textAlign={"center"} as='b' size={"md"}>Displaying 0 Recipes</Text>
-            <Divider></Divider>
-        </Box>
-        <Box
-            marginTop={"15px"}
-            overflowY="auto"
-            maxHeight="600px"
-            maxWidth="500px"
+          Displaying 0 Recipes
+        </Text>
+        <Divider></Divider>
+      </Box>
+      <Box
+        marginTop={"15px"}
+        overflowY="auto"
+        maxHeight="600px"
+        maxWidth="500px"
+      >
+        <Card
+          maxW={"lg"}
+          margin={"auto"}
         >
-        <Card maxW={"lg"} margin={"auto"} >
-            <CardBody>
-            <Heading size="xs" textTransform="uppercase" >
-                No Recipes Found
+          <CardBody>
+            <Heading
+              size="xs"
+              textTransform="uppercase"
+            >
+              No Recipes Found
             </Heading>
             <Text marginTop={4}>
-                Please select some ingredients and press the Find Recipe button!
+              Please select some ingredients and press the Find Recipe button!
             </Text>
-            </CardBody>
+          </CardBody>
         </Card>
-        </Box>
-        </>
+      </Box>
+    </>
   );
 };
 

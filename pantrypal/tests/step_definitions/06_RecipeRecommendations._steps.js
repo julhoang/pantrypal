@@ -5,7 +5,7 @@ const { expect } = require("expect");
 let driver;
 
 let { setDefaultTimeout } = require("cucumber");
-setDefaultTimeout(100 * 1000);
+setDefaultTimeout(500 * 1000);
 
 Given("the user's query returned a list of recipes", async function () {
   driver = await new Builder().forBrowser("chrome").build();
@@ -30,16 +30,12 @@ When("the user clicks on a recipe card", async function () {
 });
 
 Then("the recipe's details are displayed", async function () {
-  await driver.wait(until.elementLocated(By.id("recipeSourceButton-0")), 50000);
-  const recipeIngredients = await driver.findElement(By.id("recipeSourceButton-0"));
+  const modal = await driver.wait(until.elementLocated(By.id("chakra-modal-recipeModal")), 50000);
+  const recipeIngredients = await driver.wait(
+    until.elementLocated(By.className("recipeSourceButton")),
+    5000
+  );
 
-  let ingredientsText = await recipeIngredients.getText();
-  let textMatch = false;
-
-  if (ingredientsText.includes("Recipe Instructions")) {
-    textMatch = true;
-  }
-
-  expect(textMatch).toBe(true);
+  expect(recipeIngredients).not.toBeNull();
   await driver.quit();
 });

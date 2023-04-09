@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { ActionButtonsProps } from "@/lib/types";
+import { idText } from "typescript";
 
 export default function ActionButtons({
   id,
@@ -38,7 +39,7 @@ export default function ActionButtons({
         Edit
       </Button>
       <Button
-        data-testid={"deletebtn-" + { id }}
+        data-testid={"deletebtn-" + id}
         variant="outline"
         className={"deletebtn"}
         onClick={() => onDelete(id)}
