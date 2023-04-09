@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Box, Flex, Select, Spacer, Stack, Tag, HStack, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Select,
+  Spacer,
+  Stack,
+  Tag,
+  HStack,
+  Button,
+  Text,
+  Heading,
+} from "@chakra-ui/react";
 import prisma from "../lib/prisma";
 import { queryString, getRecipe } from "./api/getRecipe";
 import RecipeDisplay from "../components/RecipeDisplay";
@@ -115,6 +126,7 @@ function Feature({ title, itemNames, ...rest }) {
       setActive([...active, buttonIndex]); // Select the button
     }
   };
+
   return (
     <Box {...rest}>
       <Tag
@@ -122,6 +134,7 @@ function Feature({ title, itemNames, ...rest }) {
         variant="subtle"
         backgroundColor="white"
         color="black"
+        marginBottom={2}
       >
         {title}
       </Tag>
@@ -134,10 +147,10 @@ function Feature({ title, itemNames, ...rest }) {
               handleItemSelected(name);
               changeActive(index);
             }}
-            style={{
-              backgroundColor: active.includes(index) ? "green" : "lightgreen",
-              color: active.includes(index) ? "white" : "grey",
-            }}
+            size="sm"
+            bg={active.includes(index) ? "#00ff87" : "gray.200"}
+            color="black"
+            _hover={{ bg: "#00ff87" }}
           >
             {name}
           </Button>
@@ -203,7 +216,10 @@ export default function PantryTable(props: {
     <div>
       <Header />
       <Navbar currentPage="recipes" />
-      <Flex flexDirection={"row"}>
+      <Flex
+        flexDirection={"row"}
+        marginTop={"30"}
+      >
         <Stack
           dir="row"
           flex="1"
@@ -213,25 +229,33 @@ export default function PantryTable(props: {
             margin={"auto"}
             maxWidth={"600px"}
           >
+            <Heading as={"h4"}>Recipes</Heading>
+            <Text
+              fontSize="lg"
+              fontWeight={600}
+              marginBottom={4}
+            >
+              Click on one or more ingredients below to find recipes
+            </Text>
             <Stack spacing={4}>
               <Feature
-                title="FRUIT:"
+                title="FRUIT: "
                 itemNames={fruitItemNames}
               />
               <Feature
-                title="DAIRY:"
+                title="DAIRY: "
                 itemNames={dairyItemNames}
               />
               <Feature
-                title="VEGETABLE:"
+                title="VEGETABLE: "
                 itemNames={vegetableItemNames}
               />
               <Feature
-                title="MEAT:"
+                title="MEAT: "
                 itemNames={meatItemNames}
               />
               <Feature
-                title="OTHER:"
+                title="OTHER: "
                 itemNames={otherItemNames}
               />
               <HStack>
@@ -271,15 +295,16 @@ export default function PantryTable(props: {
             </Stack>
             <Spacer />
             <Button
-              marginTop="10px"
+              marginTop="30px"
               id={"findRecipeButton"}
               onClick={async () => {
                 const query = queryString(itemsSelected, selectedHealthOption, selectedMealType);
                 const result = await getRecipe(query);
                 setRecipeResults(result);
               }}
+              bgGradient="linear(to-r, #00ff87, #60efff)"
             >
-              Find Recipe
+              Find Recipes 🔍
             </Button>
           </Box>
         </Stack>
