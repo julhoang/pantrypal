@@ -143,6 +143,7 @@ function Feature({ title, itemNames, ...rest }) {
           <Button
             key={index}
             id={name}
+            size="sm"
             onClick={() => {
               handleItemSelected(name);
               changeActive(index);
@@ -239,23 +240,23 @@ export default function PantryTable(props: {
             </Text>
             <Stack spacing={4}>
               <Feature
-                title="FRUIT: "
+                title="FRUIT 🍎: "
                 itemNames={fruitItemNames}
               />
               <Feature
-                title="DAIRY: "
-                itemNames={dairyItemNames}
-              />
-              <Feature
-                title="VEGETABLE: "
+                title="VEGETABLE 🥕: "
                 itemNames={vegetableItemNames}
               />
               <Feature
-                title="MEAT: "
+                title="MEAT 🥩:"
                 itemNames={meatItemNames}
               />
               <Feature
-                title="OTHER: "
+                title="DAIRY 🧀: "
+                itemNames={dairyItemNames}
+              />
+              <Feature
+                title="OTHER 🍴: "
                 itemNames={otherItemNames}
               />
               <HStack>
