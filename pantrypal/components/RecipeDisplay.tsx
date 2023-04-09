@@ -79,8 +79,18 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
 
   if (recipeList.length > 0) {
     return (
-      <>
+        <>
         <Box
+            marginTop={"15px"}
+            overflowY="auto"
+            maxHeight="600px"
+            maxWidth="500px"
+        >
+            <Text textAlign={"center"} as='b' size={"md"}>Displaying {recipeList.length} Recipes</Text>
+            <Divider></Divider>
+            </Box>
+        <Box
+          marginTop={"15px"}
           overflowY="auto"
           maxHeight="600px"
           maxWidth="500px"
@@ -95,10 +105,7 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
                 padding={"5px"}
               >
                 <CardBody>
-                  <Heading
-                    size="md"
-                    textTransform="uppercase"
-                  >
+                  <Heading size="md" textTransform="uppercase" >
                     {recipe["recipe"]["label"]}
                   </Heading>
                   <Divider />
@@ -156,24 +163,34 @@ const RecipeDisplay = (props: recipeDisplayProps) => {
   }
 
   return (
-    <Box>
-      <Card
-        maxW={"lg"}
-        margin={"auto"}
-      >
-        <CardBody>
-          <Heading
-            size="xs"
-            textTransform="uppercase"
-          >
-            No Recipes Found
-          </Heading>
-          <Text marginTop={4}>
-            Please select some ingredients first then press the Find Recipe!
-          </Text>
-        </CardBody>
-      </Card>
-    </Box>
+    <>
+        <Box
+            marginTop={"15px"}
+            overflowY="auto"
+            maxHeight="600px"
+            maxWidth="500px"
+        >
+            <Text textAlign={"center"} as='b' size={"md"}>Displaying 0 Recipes</Text>
+            <Divider></Divider>
+        </Box>
+        <Box
+            marginTop={"15px"}
+            overflowY="auto"
+            maxHeight="600px"
+            maxWidth="500px"
+        >
+        <Card maxW={"lg"} margin={"auto"} >
+            <CardBody>
+            <Heading size="xs" textTransform="uppercase" >
+                No Recipes Found
+            </Heading>
+            <Text marginTop={4}>
+                Please select some ingredients first then press the Find Recipe!
+            </Text>
+            </CardBody>
+        </Card>
+        </Box>
+        </>
   );
 };
 
