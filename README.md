@@ -6,8 +6,7 @@ PantryPal is a web app that aims to help users manage their pantry more effectiv
 In your local machine, type the following commands:
 
 ```
-git clone https://github.com/uvic-seng321/project-requirement-rascals-15.git 
-cd project-requirement-rascals-15
+git clone https://github.com/julhoang/pantrypal 
 cd pantrypal
 npm install
 npm run dev
@@ -15,7 +14,7 @@ npm run dev
 
 ## Testing
 
-To run all front-end tests, make sure you are in the ```./pantrypal``` directory, then:
+To run all front-end tests, run:
 ```
 npm run testBDD
 ```
@@ -23,13 +22,7 @@ npm run testBDD
 
 ## Developer Team
 
+- [Julia Hoang](https://github.com/julhoang)  
 - [Chloe Zacharias](https://github.com/chloezacharias-uvic)
 - [Jenny Luu](https://github.com/j7uu)
 - [Aman Palod](https://github.com/palodaman)
-- [Julia Hoang](https://github.com/julhoang)  
-
----
-
-Main: ![continuous integration build badge](https://github.com/uvic-seng321/project-requirement-rascals-15/actions/workflows/npm-gulp.yml/badge.svg)
-
-[![CucumberReports: pantrypal](https://messages.cucumber.io/api/report-collections/c22ed8d4-1d36-4295-b787-e06376b945ee/badge)](https://reports.cucumber.io/report-collections/c22ed8d4-1d36-4295-b787-e06376b945ee)
