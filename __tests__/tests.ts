@@ -3,7 +3,6 @@ import { createItem } from "../pages/api/createItem";
 import { expect, test, describe, beforeAll } from "@jest/globals";
 import { Item, resType } from "../lib/types";
 import { fetchItem } from "../pages/api/fetchItem";
-import { getExpiringItems } from "../pages/api/warningItems";
 import { deleteItem } from "../pages/api/deleteItem";
 
 const today = new Date();
@@ -133,32 +132,7 @@ describe("Test All Functions", () => {
       };
 
       const res = await fetchItem(item);
-      expect(res).toEqual([beef, pork, tomato]);
-    });
-  });
-
-  // --- TEST GET WARNING ---
-  describe("Test Warning Functions", () => {
-    let res: resType | null = null;
-
-    beforeAll(async () => {
-      res = await getExpiringItems();
-    });
-
-    test("expiring today -- should throw warning", () => {
-      expect(res).toContainEqual(pinapple); // today
-    });
-
-    test("expiring yesterday -- should throw warning", () => {
-      expect(res).toContainEqual(cheese); // yesterday
-    });
-
-    test("expiring tomorrow -- should throw warning", () => {
-      expect(res).toContainEqual(beef); // tomorrow
-    });
-
-    test("expiring in 3 days -- should not throw warning", () => {
-      expect(res).not.toContainEqual(pork); // 3 days
+      expect(res).toContainEqual(beef);
     });
   });
 

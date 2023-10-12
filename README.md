@@ -3,22 +3,27 @@ PantryPal is a web app that aims to help users manage their pantry more effectiv
 
 
 ## Installation
-In your local machine, type the following commands:
+**Step 1:** In your local machine, type the following commands:
 
 ```
 git clone https://github.com/julhoang/pantrypal 
 cd pantrypal
 npm install
-npm run dev
 ```
+
+**Step 2:** Set up a Supabase account and a Postgres database.
+
+**Step 3:** The following command will help initialize the database with the schema already set up in in `prisma/schema.prisma`:
+```
+npx prisma migrate dev
+```
+If you want to see sample data, run: `npx prisma db seed`.
+
+**Step 4:** Run the app with `npm run dev`.
 
 ## Testing
 
-To run all front-end tests, run:
-```
-npm run testBDD
-```
-⚠️ **Note**: Please **do not manually delete** ```cucumber``` and ```Banana``` as they are part of the test runners.
+To run all front-end tests, run: `npm run testBDD`
 
 ## Developer Team
 
