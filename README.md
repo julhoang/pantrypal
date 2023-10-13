@@ -11,7 +11,10 @@ cd pantrypal
 npm install
 ```
 
-**Step 2:** Set up a Supabase account and a Postgres database.
+**Step 2:** Set up a Supabase account and a Postgres database, placing the database link in the `.env` file with the following format:
+```
+DATABASE_URL="postgresql://postgres:[your_db_password]@...supabase.co:../postgres"
+```
 
 **Step 3:** The following command will help initialize the database with the schema already set up in in `prisma/schema.prisma`:
 ```
@@ -19,11 +22,18 @@ npx prisma migrate dev
 ```
 If you want to see sample data, run: `npx prisma db seed`.
 
-**Step 4:** Run the app with `npm run dev`.
+**Step 4:** Run the app 
+```
+npm run dev
+```
 
 ## Testing
 
-To run all front-end tests, run: `npm run testBDD`
+To run back-end tests, run: `npm run test`
+
+## Demo
+
+https://github.com/julhoang/pantrypal/assets/64108232/649467d5-bf18-4ecb-8a19-456fdfeda763
 
 ## Developer Team
 
